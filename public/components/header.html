@@ -1,47 +1,51 @@
 <header class="global-header">
     <div class="header-container">
         <div class="logo-section">
-            <img src="./media/logo2.png" alt="Portfolio Management Logo" class="logo-img">
+            <img src="./media/logo2.png" alt="Portfolio Management Logo" style="width:150px; height:100px" class="logo-img">
             <div class="logo-text">
-                <h1 class="logo-title">Portfolio Management</h1>
-                <p class="logo-subtitle">Five minds, one winning portfolio.</p>
+                <h1 class="logo-subtitle">Five minds, one winning portfolio.</h1>
             </div>
         </div>
         
         <nav class="nav-menu" id="navMenu">
             <a href="dashboard.html" class="nav-item">
-                <span class="nav-icon">📊</span>
+                <span class="nav-icon"><i class="fa-solid fa-chart-simple"></i></span>
                 <span class="nav-text">Dashboard</span>
             </a>
             <a href="buy-stocks.html" class="nav-item">
-                <span class="nav-icon">💰</span>
-                <span class="nav-text">Comprar</span>
+                <span class="nav-icon"><i class="fa-solid fa-dollar-sign"></i></span>
+                <span class="nav-text">Buy</span>
             </a>
             <a href="manage-investments.html" class="nav-item">
-                <span class="nav-icon">📈</span>
-                <span class="nav-text">Vender</span>
+                <span class="nav-icon"><i class="fa-solid fa-hand-holding-dollar"></i></span>
+                <span class="nav-text">Sell</span>
             </a>
             <a href="market.html" class="nav-item">
-                <span class="nav-icon">🏪</span>
-                <span class="nav-text">Mercado</span>
+                <span class="nav-icon"><i class="fa-solid fa-store"></i></span>
+                <span class="nav-text">Market</span>
             </a>
         </nav>
         
         <div class="user-section" id="userSection">
             <div class="user-info">
-                <span class="user-name" id="headerUserName">Usuario</span>
+                <span class="user-name" id="headerUserName">User</span>
                 <span class="user-balance" id="headerCashBalance">$0.00</span>
             </div>
             <div class="user-actions">
                 <button class="user-btn" onclick="showUserMenu()">
-                    <span class="user-icon">👤</span>
+                    <span class="user-icon"><i class="fa-solid fa-user"></i></span>
+                </button>
+                <!-- Direct logout button -->
+                <button class="logout-btn" onclick="logout()" title="Sign Out">
+                    <span class="logout-icon"><i class="fa-solid fa-arrow-right-from-bracket"></i></span>
+                    <span class="logout-text">Exit</span>
                 </button>
                 <div class="user-dropdown" id="userDropdown">
                     <a href="change-password.html" class="dropdown-item">
-                        <span>🔒</span> Cambiar Contraseña
+                        <span>🔒</span> Change Password
                     </a>
                     <a href="#" onclick="logout()" class="dropdown-item">
-                        <span>🚪</span> Cerrar Sesión
+                        <span>🚪</span> Sign Out
                     </a>
                 </div>
             </div>
@@ -56,6 +60,10 @@
 </header>
 
 <style>
+    @import url('https://fonts.googleapis.com/css2?family=Teachers:ital,wght@0,400..800;1,400..800&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&family=Teachers:ital,wght@0,400..800;1,400..800&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Didact+Gothic&family=Lexend:wght@100..900&family=Teachers:ital,wght@0,400..800&display=swap');
+
 .global-header {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
@@ -64,6 +72,7 @@
     position: sticky;
     top: 0;
     z-index: 1000;
+    font-family: "Teachers", sans-serif;
 }
 
 .header-container {
@@ -84,8 +93,7 @@
 }
 
 .logo-img {
-    width: 50px;
-    height: 40px;
+    align-items:left;
     border-radius: 8px;
 }
 
@@ -96,14 +104,14 @@
 
 .logo-title {
     margin: 0;
-    font-size: 18px;
+    font-size: 20px;
     font-weight: bold;
     color: white;
 }
 
 .logo-subtitle {
     margin: 0;
-    font-size: 11px;
+    font-size: 13px;
     opacity: 0.9;
     color: rgba(255,255,255,0.8);
 }
@@ -144,9 +152,10 @@
 }
 
 .nav-text {
-    font-size: 12px;
+    font-size: 16px;
     font-weight: 600;
     text-align: center;
+    font-family: "Lexend", sans-serif;
 }
 
 .user-section {
@@ -157,29 +166,42 @@
 }
 
 .user-info {
-    display: flex;
+    display: flex !important;
     flex-direction: column;
     align-items: flex-end;
     text-align: right;
+    min-width: 120px;
 }
 
 .user-name {
-    font-size: 14px;
-    font-weight: bold;
-    color: white;
+    font-size: 22px !important;
+    font-weight: bold !important;
+    color: white !important;
+    font-family: "Lexend", sans-serif !important;
+    display: block !important;
+    opacity: 1 !important;
+    visibility: visible !important;
 }
 
 .user-balance {
-    font-size: 12px;
-    color: rgba(255,255,255,0.8);
-    background: rgba(255,255,255,0.1);
-    padding: 2px 8px;
-    border-radius: 10px;
-    margin-top: 2px;
+    font-size: 15px !important;
+    color: rgba(255,255,255,0.8) !important;
+    background: rgba(255,255,255,0.1) !important;
+    padding: 2px 8px !important;
+    border-radius: 10px !important;
+    margin-top: 2px !important;
+    display: block !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    min-width: 60px;
+    text-align: center;
 }
 
 .user-actions {
     position: relative;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
 .user-btn {
@@ -203,7 +225,40 @@
 }
 
 .user-icon {
-    font-size: 18px;
+    font-size: 24px;
+}
+
+/* Nuevo botón de logout directo */
+.logout-btn {
+    background: linear-gradient(135deg, #a34b54 0%, #af565d 100%);
+    border: none;
+    color: white;
+    padding: 12px 17px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap:8px;
+    font-size: 16px;
+    font-weight: 600;
+    box-shadow: 0 2px 8px rgba(220, 53, 69, 0.3);
+}
+
+.logout-btn:hover {
+    background: linear-gradient(135deg, #c82333 0%, #a71e2a 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(220, 53, 69, 0.4);
+}
+
+.logout-icon {
+    font-size: 14px;
+}
+
+.logout-text {
+    font-size: 17px;
+    font-weight: 700;
+    font-family:"Lexend", sans-serif;
 }
 
 .user-dropdown {
@@ -329,6 +384,19 @@
     .mobile-menu-btn {
         display: flex;
     }
+    
+    .logout-btn {
+        padding: 6px 10px;
+    }
+    
+    .logout-text {
+        display: none;
+    }
+    
+    .user-btn {
+        width: 35px;
+        height: 35px;
+    }
 }
 
 @media (max-width: 480px) {
@@ -344,6 +412,10 @@
     .logo-title {
         font-size: 16px;
     }
+    
+    .user-actions {
+        gap: 8px;
+    }
 }
 </style>
 
@@ -352,11 +424,22 @@
 let headerCashBalance = 0;
 
 function initializeHeader() {
+    console.log('🔧 Initializing header...');
     const user = JSON.parse(localStorage.getItem('user') || '{}');
     const userId = localStorage.getItem('userId');
     
-    if (user.firstName || user.username) {
-        document.getElementById('headerUserName').textContent = user.firstName || user.username;
+    console.log('User data from localStorage:', user);
+    console.log('User ID from localStorage:', userId);
+    
+    // Update user name correctly
+    const headerUserName = document.getElementById('headerUserName');
+    if (headerUserName) {
+        const displayName = user.firstName || user.username || user.email || 'User';
+        headerUserName.textContent = displayName;
+        headerUserName.style.display = 'block'; // Ensure it's visible
+        console.log('✅ User shown in header:', displayName);
+    } else {
+        console.error('❌ Element headerUserName not found');
     }
     
     // Load cash balance
@@ -371,24 +454,57 @@ function initializeHeader() {
             closeUserMenu();
         }
     });
+    
+    console.log('✅ Header initialization completed');
 }
 
 async function loadHeaderCashBalance() {
     const userId = localStorage.getItem('userId');
-    if (!userId) return;
+    if (!userId) {
+        console.log('❌ No userId found for cash balance');
+        return;
+    }
     
     try {
+        console.log('💰 Loading cash balance for user:', userId);
         const response = await fetch('/api/investments/cash/balance', {
             headers: { 'x-user-id': userId }
         });
         const result = await response.json();
+        
+        console.log('💰 Cash balance API response:', result);
+        
         if (result.success) {
-            headerCashBalance = parseFloat(result.data.cashBalance);
-            document.getElementById('headerCashBalance').textContent = 
-                `$${headerCashBalance.toLocaleString()}`;
+            headerCashBalance = parseFloat(result.data.cashBalance) || 0;
+            const balanceElement = document.getElementById('headerCashBalance');
+            if (balanceElement) {
+                const formattedBalance = `$${headerCashBalance.toLocaleString('en-US', {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                })}`;
+                balanceElement.textContent = formattedBalance;
+                balanceElement.style.display = 'block'; // Asegurar que sea visible
+                console.log('✅ Balance actualizado en header:', formattedBalance);
+            } else {
+                console.error('❌ Element headerCashBalance not found');
+            }
+        } else {
+            console.error('❌ Error en respuesta de balance:', result.message);
+            // Mostrar $0.00 si hay error
+            const balanceElement = document.getElementById('headerCashBalance');
+            if (balanceElement) {
+                balanceElement.textContent = '$0.00';
+                balanceElement.style.display = 'block';
+            }
         }
     } catch (error) {
-        console.error('Error loading header cash balance:', error);
+        console.error('❌ Error loading header cash balance:', error);
+        // Mostrar $0.00 si hay error de conexión
+        const balanceElement = document.getElementById('headerCashBalance');
+        if (balanceElement) {
+            balanceElement.textContent = '$0.00';
+            balanceElement.style.display = 'block';
+        }
     }
 }
 
@@ -426,22 +542,69 @@ function toggleMobileMenu() {
 }
 
 function logout() {
-    localStorage.removeItem('userId');
-    localStorage.removeItem('user');
-    localStorage.removeItem('authToken');
-    window.location.href = 'login.html';
+    // Confirm logout
+    if (confirm('Are you sure you want to sign out?')) {
+        // Clear localStorage
+        localStorage.removeItem('userId');
+        localStorage.removeItem('user');
+        localStorage.removeItem('authToken');
+        
+        // Show goodbye message
+        const user = JSON.parse(localStorage.getItem('user') || '{}');
+        const userName = user.firstName || user.username || 'user';
+        
+        // Optional: Call server logout API
+        try {
+            fetch('/api/auth/logout', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-user-id': localStorage.getItem('userId')
+                }
+            });
+        } catch (error) {
+            console.log('Server logout error:', error);
+        }
+        
+        // Redirect to login
+        window.location.href = 'login.html';
+    }
 }
 
 // Update cash balance from other pages
 function updateHeaderCashBalance(newBalance) {
-    headerCashBalance = newBalance;
-    document.getElementById('headerCashBalance').textContent = 
-        `$${parseFloat(newBalance).toLocaleString()}`;
+    headerCashBalance = parseFloat(newBalance) || 0;
+    const balanceElement = document.getElementById('headerCashBalance');
+    if (balanceElement) {
+        balanceElement.textContent = `$${headerCashBalance.toLocaleString('en-US', {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+        })}`;
+        console.log('Balance actualizado desde otra página:', headerCashBalance);
+    }
 }
 
 // Initialize when DOM loads
-document.addEventListener('DOMContentLoaded', initializeHeader);
+document.addEventListener('DOMContentLoaded', () => {
+    console.log('📄 DOM loaded, scheduling header initialization...');
+    // Delay para asegurar que el DOM esté completamente cargado
+    setTimeout(() => {
+        console.log('⏰ Executing delayed header initialization...');
+        initializeHeader();
+    }, 150);
+});
+
+// También intentar inicializar cuando el script se carga
+setTimeout(() => {
+    if (document.readyState === 'complete' || document.readyState === 'interactive') {
+        console.log('📄 Document ready, initializing header immediately...');
+        initializeHeader();
+    }
+}, 100);
 
 // Auto-refresh balance every 30 seconds
 setInterval(loadHeaderCashBalance, 30000);
+
+// También cargar balance cuando la página regaine focus
+window.addEventListener('focus', loadHeaderCashBalance);
 </script>

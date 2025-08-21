@@ -7,8 +7,12 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
     <script src="./js/header-loader.js"></script>
+    <link rel = "stylesheet" href ="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="./css/global.css">
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Teachers:ital,wght@0,400..800;1,400..800&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&family=Teachers:ital,wght@0,400..800;1,400..800&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Didact+Gothic&family=Lexend:wght@100..900&family=Teachers:ital,wght@0,400..800&display=swap');
         body { 
             font-family: Arial, sans-serif; 
             margin: 0; 
@@ -23,7 +27,7 @@
         }
         
         .welcome-section { 
-            background: white; 
+            background:rgb(231, 234, 251); 
             padding: 25px; 
             border-radius: 12px; 
             margin-bottom: 20px; 
@@ -34,14 +38,16 @@
         .welcome-title {
             color: #293b36;
             margin: 0 0 10px 0;
-            font-size: 28px;
+            font-size: 34px;
             font-weight: 700;
+            font-family:"Teachers", sans-serif;
         }
         
         .welcome-subtitle {
             color: #666;
             margin: 0;
             font-size: 16px;
+            font-family:"Didact Gothic", sans-serif;
         }
         
         .stats-overview {
@@ -67,13 +73,16 @@
         
         .stat-value {
             font-size: 24px;
-            font-weight: 700;
+            font-weight: 800;
             margin-bottom: 5px;
+            font-family:"Didact Gothic", sans-serif;
+            
         }
         
         .stat-label {
             font-size: 14px;
             opacity: 0.9;
+            font-family:"Lexend", sans-serif;
         }
         
         .quick-actions {
@@ -82,9 +91,12 @@
             gap: 20px;
             margin-bottom: 30px;
         }
-        
+        .quick-actions p{
+            font-family:"Didactic Gothic", sans-serif;
+        }
         .action-card {
-            background: white;
+            
+            background:rgb(231, 234, 251); 
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
@@ -93,7 +105,8 @@
         .action-card h3 { 
             margin-top: 0; 
             color: #293b36; 
-            font-weight: 700; 
+            font-weight: 700;
+            font-family:"Lexend", sans-serif; 
         }
         
         .action-card button { 
@@ -101,10 +114,12 @@
             color: white; 
             border: none; 
             padding: 10px 20px; 
-            border-radius: 4px; 
+            border-radius: 10px; 
             cursor: pointer; 
             width: 100%; 
             font-weight: 700; 
+            font-family:"Lexend", sans-serif; 
+            font-size:18px
         }
         
         .action-card button:hover { 
@@ -134,17 +149,20 @@
             margin: 0;
             font-size: 24px;
             font-weight: 700;
+            font-family: "Lexend", sans-serif;
+            
         }
 
         .refresh-btn {
-            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            background: linear-gradient(135deg,rgb(113, 177, 105) 0%, #20c97a 100%);
             color: white;
             border: none;
             padding: 8px 16px;
-            border-radius: 4px;
+            border-radius: 16px;
             cursor: pointer;
             font-weight: 700;
-            font-size: 14px;
+            font-size: 19px;
+            gap:8px;
         }
 
         .refresh-btn:hover {
@@ -171,11 +189,14 @@
             font-size: 24px;
             font-weight: bold;
             margin: 10px 0;
+            font-family:"Didact Gothic", sans-serif;
         }
 
         .summary-label {
-            font-size: 14px;
+            font-size: 16px;
             opacity: 0.9;
+            font-family: "Didact Gothic", sans-serif;
+            font-weight:700;
         }
 
         .investments-table {
@@ -201,13 +222,15 @@
         }
 
         .gain-positive {
-            color: #28a745;
+            color: #8bd099;
             font-weight: bold;
+            font-family:"Lexend", sans-serif;
         }
 
         .gain-negative {
-            color: #dc3545;
+            color: #c78081;
             font-weight: bold;
+            font-family:"Lexend", sans-serif;
         }
 
         .charts-container {
@@ -218,17 +241,18 @@
         }
 
         .chart-card {
-            background: #f8f9fa;
+            background:rgb(231, 234, 251); 
             padding: 20px;
             border-radius: 8px;
             text-align: center;
         }
 
         .chart-title {
-            font-size: 16px;
+            font-size: 21px;
             font-weight: bold;
             color: #333;
             margin-bottom: 15px;
+            font-family:"Lexend", sans-serif;
         }
 
         .chart-wrapper {
@@ -240,6 +264,12 @@
             text-align: center;
             padding: 40px;
             color: #666;
+            font-family:"Lexend", sans-serif;
+            
+        }
+        .no-investments button{
+            font-family:"Lexend", sans-serif;
+            border-radius:16px;
         }
 
         .loading {
@@ -257,24 +287,26 @@
             border: 1px solid #f5c6cb;
         }
 
-        .investment-story {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        /*. {
+            background: linear-gradient(135deg, #104ba2  0%, #C09EF9 100%);
             color: white;
             padding: 20px;
             border-radius: 8px;
             margin: 20px 0;
-        }
+        }*/
 
         .story-title {
-            font-size: 18px;
+            font-size: 26px;
             font-weight: bold;
             margin-bottom: 10px;
+            font-family:"Teachers", sans-serif;
         }
 
         .story-text {
-            font-size: 14px;
+            font-size: 18px;
             line-height: 1.6;
             opacity: 0.9;
+            font-family:"Didact Gothic", sans-serif;
         }
 
         .highlight {
@@ -303,64 +335,331 @@
                 grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
             }
         }
+
+        /* Botón de logout específico para dashboard */
+        .logout-dashboard-btn {
+            background: linear-gradient(135deg, #c82333cc 0%, #a71e29c0 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 14px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 17px;
+            font-family:"Lexend", sans-serif;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(220, 53, 69, 0.2);
+        }
+
+        .logout-dashboard-btn:hover {
+            background: linear-gradient(135deg, #c82333 0%, #a71e2a 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(220, 53, 69, 0.3);
+        }
+
+        /* News Carousel Styles */
+        .news-section {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin: 20px 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-left: 5px solid #ff6b35;
+        }
+
+        .news-carousel-container {
+            position: relative;
+            margin: 20px 0;
+            overflow: hidden;
+            border-radius: 10px;
+        }
+
+        .news-carousel {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+            gap: 20px;
+            padding: 10px 0;
+        }
+
+        .news-card {
+            min-width: 350px;
+            max-width: 350px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            border: 1px solid #e0e0e0;
+        }
+
+        .news-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .news-card img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+
+        .news-card-content {
+            padding: 20px;
+        }
+
+        .news-card h3 {
+            margin: 0 0 12px 0;
+            font-size: 16px;
+            font-weight: 700;
+            color: #293b36;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            font-family: "Lexend", sans-serif;
+        }
+
+        .news-card p {
+            margin: 0 0 15px 0;
+            font-size: 14px;
+            color: #666;
+            line-height: 1.5;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            font-family: "Didact Gothic", sans-serif;
+        }
+
+        .news-card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+        }
+
+        .news-source {
+            font-size: 12px;
+            color: #999;
+            font-weight: 500;
+        }
+
+        .news-time {
+            font-size: 12px;
+            color: #999;
+        }
+
+        .news-link {
+            display: inline-block;
+            padding: 8px 16px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-align: center;
+            font-family: "Lexend", sans-serif;
+        }
+
+        .news-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            color: #333;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+        }
+
+        .carousel-btn:hover {
+            background: white;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .carousel-prev {
+            left: 10px;
+        }
+
+        .carousel-next {
+            right: 10px;
+        }
+
+        .carousel-indicators {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 20px;
+        }
+
+        .indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #ddd;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .indicator.active {
+            background: #667eea;
+            transform: scale(1.2);
+        }
+
+        .news-category-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            background: rgba(102, 126, 234, 0.1);
+            color: #667eea;
+            border-radius: 12px;
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        /* Mobile responsive */
+        @media (max-width: 768px) {
+            .news-card {
+                min-width: 280px;
+                max-width: 280px;
+            }
+            
+            .carousel-btn {
+                width: 35px;
+                height: 35px;
+                font-size: 14px;
+            }
+            
+            .news-carousel-container {
+                margin: 15px -10px;
+                padding: 0 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .news-card {
+                min-width: 250px;
+                max-width: 250px;
+            }
+            
+            .news-card-content {
+                padding: 15px;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="main-content">
         <div class="welcome-section">
-            <h1 class="welcome-title">¡Bienvenido de vuelta, <span id="userName"></span>!</h1>
-            <p class="welcome-subtitle">Gestiona tu portafolio y mantente al día con tus inversiones</p>
+            <h1 class="welcome-title">Welcome back, <span id="userName"></span>!</h1>
+            <p class="welcome-subtitle">Manage your portfolio and stay updated with your investments</p>
         </div>
         
         <div class="stats-overview">
             <div class="stat-card" onclick="scrollToPortfolio()">
                 <div class="stat-value" id="quickTotalValue">$0.00</div>
-                <div class="stat-label">Valor Total</div>
+                <div class="stat-label">Total Value</div>
             </div>
             <div class="stat-card" onclick="scrollToPortfolio()">
                 <div class="stat-value" id="quickInvestmentCount">0</div>
-                <div class="stat-label">Inversiones</div>
+                <div class="stat-label">Investments</div>
             </div>
             <div class="stat-card" onclick="window.location.href='buy-stocks.html'">
                 <div class="stat-value" id="quickCashBalance">$0.00</div>
-                <div class="stat-label">Efectivo</div>
+                <div class="stat-label">Cash</div>
             </div>
             <div class="stat-card" onclick="window.location.href='market.html'">
-                <div class="stat-value">📊</div>
-                <div class="stat-label">Ver Mercado</div>
+                <div class="stat-value"><i class="fa-solid fa-money-bill-trend-up"></i></div>
+                <div class="stat-label">View Market</div>
             </div>
         </div>
         
         <div class="quick-actions">
             <div class="action-card">
-                <h3>💰 Comprar Acciones</h3>
-                <p>Busca y compra nuevas acciones para tu portafolio</p>
-                <button onclick="window.location.href='buy-stocks.html'">Ir a Comprar</button>
+                <h3><i class="fa-solid fa-money-check-dollar"></i> Buy Stocks</h3>
+                <p>Search and buy new stocks for your portfolio</p>
+                <button onclick="window.location.href='buy-stocks.html'">Go to Buy</button>
             </div>
             
             <div class="action-card">
-                <h3>📈 Gestionar Inversiones</h3>
-                <p>Vende o administra tus inversiones actuales</p>
-                <button onclick="window.location.href='manage-investments.html'">Gestionar</button>
+                <h3><i class="fa-solid fa-list-check"></i>Manage Investments</h3>
+                <p>Sell or manage your current investments</p>
+                <button onclick="window.location.href='manage-investments.html'">Manage</button>
             </div>
 
             <div class="action-card">
-                <h3>🏪 Explorar Mercado</h3>
-                <p>Descubre nuevas oportunidades de inversión</p>
-                <button onclick="window.location.href='market.html'">Ver Mercado</button>
+                <h3><i class="fa-solid fa-cart-arrow-down"></i> Explore Market</h3>
+                <p>Discover new investment opportunities</p>
+                <button onclick="window.location.href='market.html'">View Market</button>
             </div>
+        </div>
+
+        <!-- Botón de logout adicional en dashboard -->
+        <div style="text-align: center; margin: 30px 0;">
+            <button class="logout-dashboard-btn" onclick="logout()" title="Cerrar Sesión">
+                <i class="fa-solid fa-arrow-right-from-bracket"></i> Log Out
+            </button>
         </div>
 
         <!-- Portfolio Analysis Section - Now Always Visible -->
         <div id="portfolioSection" class="portfolio-section">
             <div class="section-header">
-                <h2 class="section-title">📊 Análisis de Portafolio</h2>
-                <button class="refresh-btn" onclick="loadPortfolio()">🔄 Actualizar</button>
+                <h2 class="section-title"><i class="fa-solid fa-chart-line"></i> Portfolio Analysis</h2>
+                <button class="refresh-btn" onclick="loadPortfolio()"><i class="fa-solid fa-retweet"></i>  Refresh</button>
             </div>
             
             <div id="portfolioContent">
-                <div class="loading">Cargando análisis del portafolio...</div>
+                <div class="loading">Loading portfolio analysis...</div>
             </div>
+        </div>
+
+        <!-- Financial News Carousel Section -->
+        <div class="news-section">
+            <div class="section-header">
+                <h2 class="section-title"><i class="fa-solid fa-newspaper"></i> Financial News</h2>
+                <button class="refresh-btn" onclick="cargarNoticias()">
+                    <i class="fa-solid fa-refresh"></i> Update
+                </button>
+            </div>
+            
+            <div class="news-carousel-container">
+                <button class="carousel-btn carousel-prev" onclick="previousSlide()">
+                    <i class="fa-solid fa-chevron-left"></i>
+                </button>
+                
+                <div class="news-carousel" id="newsCarousel">
+                    <div class="loading">Loading financial news...</div>
+                </div>
+                
+                <button class="carousel-btn carousel-next" onclick="nextSlide()">
+                    <i class="fa-solid fa-chevron-right"></i>
+                </button>
+            </div>
+            
+            <div class="carousel-indicators" id="carouselIndicators"></div>
         </div>
     </div>
 
@@ -373,18 +672,36 @@
             window.location.href = 'login.html';
         }
         
-        document.getElementById('userName').textContent = user.firstName || user.username || 'Usuario';
+        document.getElementById('userName').textContent = user.firstName || user.username || 'User';
         
-        function scrollToPortfolio() {
-            document.getElementById('portfolioSection').scrollIntoView({ 
-                behavior: 'smooth',
-                block: 'start'
-            });
+        // Debug function to check header
+        function checkHeaderStatus() {
+            console.log('=== HEADER DEBUG INFO ===');
+            console.log('Header container exists:', !!document.getElementById('global-header-container'));
+            console.log('HeaderUserName element:', document.getElementById('headerUserName'));
+            console.log('HeaderCashBalance element:', document.getElementById('headerCashBalance'));
+            console.log('Header loaded:', window.headerLoader ? window.headerLoader.headerLoaded : 'HeaderLoader not found');
+            console.log('User data:', localStorage.getItem('user'));
+            console.log('========================');
+            
+            // Force header refresh if elements exist
+            const headerUserName = document.getElementById('headerUserName');
+            const headerCashBalance = document.getElementById('headerCashBalance');
+            
+            if (headerUserName && headerCashBalance) {
+                console.log('Forcing header refresh...');
+                if (window.headerLoader) {
+                    window.headerLoader.refreshUserInfo();
+                }
+            }
         }
         
+        // Check header status after a delay
+        setTimeout(checkHeaderStatus, 2000);
+
         async function loadPortfolio() {
             const contentDiv = document.getElementById('portfolioContent');
-            contentDiv.innerHTML = '<div class="loading">Actualizando análisis del portafolio...</div>';
+            contentDiv.innerHTML = '<div class="loading">Updating portfolio analysis...</div>';
             
             try {
                 const [portfolioResponse, investmentsResponse] = await Promise.all([
@@ -402,10 +719,10 @@
                 if (portfolioData.success && investmentsData.success) {
                     displayPortfolioData(portfolioData.data, investmentsData.data);
                 } else {
-                    contentDiv.innerHTML = '<div class="error">Error cargando datos del portfolio</div>';
+                    contentDiv.innerHTML = '<div class="error">Error loading portfolio data</div>';
                 }
             } catch (error) {
-                contentDiv.innerHTML = '<div class="error">Error de conexión al cargar el portfolio</div>';
+                contentDiv.innerHTML = '<div class="error">Connection error while loading portfolio</div>';
                 console.error('Error loading portfolio:', error);
             }
         }
@@ -452,19 +769,19 @@
             const summaryHTML = `
                 <div class="portfolio-summary">
                     <div class="summary-card">
-                        <div class="summary-label">Efectivo Disponible</div>
+                        <div class="summary-label">Available Cash</div>
                         <div class="summary-value">$${parseFloat(portfolioData.cashBalance || 0).toLocaleString()}</div>
                     </div>
                     <div class="summary-card">
-                        <div class="summary-label">Total Invertido</div>
+                        <div class="summary-label">Total Invested</div>
                         <div class="summary-value">$${parseFloat(portfolioData.totalInvested || 0).toLocaleString()}</div>
                     </div>
                     <div class="summary-card">
-                        <div class="summary-label">Valor Actual</div>
+                        <div class="summary-label">Current Value</div>
                         <div class="summary-value">$${parseFloat(portfolioData.currentPortfolioValue || 0).toLocaleString()}</div>
                     </div>
                     <div class="summary-card">
-                        <div class="summary-label">Ganancia/Pérdida</div>
+                        <div class="summary-label">Gain/Loss</div>
                         <div class="summary-value ${(portfolioData.totalGainLoss || 0) >= 0 ? 'gain-positive' : 'gain-negative'}">
                             ${(portfolioData.totalGainLoss || 0) >= 0 ? '+' : ''}$${parseFloat(portfolioData.totalGainLoss || 0).toLocaleString()}
                         </div>
@@ -494,8 +811,8 @@
                                 <small>(${gainLossSign}${investment.gainLossPercent.toFixed(2)}%)</small>
                             </td>
                             <td>
-                                <button onclick="window.location.href='manage-investments.html'" style="background: #dc3545; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 12px;">
-                                    Gestionar
+                                <button onclick="window.location.href='manage-investments.html'" style="background: #b9535f; color: white; border: none; padding: 13px 16px; border-radius: 10px; cursor: pointer; font-size: 16px; font-family:"Lexend", sans-serif; font-weight: 700;>
+                                    Manage
                                 </button>
                             </td>
                         </tr>
@@ -503,19 +820,19 @@
                 }).join('');
 
                 investmentsHTML = `
-                    <h3 style="color: #293b36; margin-bottom: 15px;">📈 Mis Inversiones</h3>
+                    <h3 style="color: #293b36; margin-bottom: 15px;"><i class="fa-solid fa-money-bill-transfer"></i> My Investments</h3>
                     <div class="investments-table">
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th>Acción</th>
-                                    <th>Cantidad</th>
-                                    <th>Precio Promedio</th>
-                                    <th>Precio Actual</th>
-                                    <th>Total Invertido</th>
-                                    <th>Valor Actual</th>
-                                    <th>Ganancia/Pérdida</th>
-                                    <th>Acciones</th>
+                                    <th>Stock</th>
+                                    <th>Quantity</th>
+                                    <th>Average Price</th>
+                                    <th>Current Price</th>
+                                    <th>Total Invested</th>
+                                    <th>Current Value</th>
+                                    <th>Gain/Loss</th>
+                                    <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -527,10 +844,10 @@
             } else {
                 investmentsHTML = `
                     <div class="no-investments">
-                        <h3>📋 No tienes inversiones aún</h3>
-                        <p>¡Comienza comprando tu primera acción para ver análisis detallados!</p>
-                        <button onclick="window.location.href='buy-stocks.html'" style="background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white; border: none; padding: 12px 24px; border-radius: 8px; cursor: pointer; font-weight: bold; margin-top: 15px;">
-                            💰 Comprar Primera Acción
+                        <h3><i class="fa-solid fa-sheet-plastic"></i> You have no investments yet</h3>
+                        <p>Start by buying your first stock to see detailed analysis!</p>
+                        <button onclick="window.location.href='buy-stocks.html'" style="background: #74BF8A; color: white; border: none; padding: 12px 24px; border-radius: 14px; cursor: pointer; font-weight: bold; margin-top: 15px; font-size:19px; >
+                            <i class="fa-solid fa-money-bill-1-wave"></i> Buy First Stock
                         </button>
                     </div>
                 `;
@@ -540,13 +857,13 @@
             const chartsHTML = `
                 <div class="charts-container">
                     <div class="chart-card">
-                        <div class="chart-title">📊 Distribución del Portafolio</div>
+                        <div class="chart-title"><i class="fa-solid fa-chart-pie"></i>  Portfolio Distribution</div>
                         <div class="chart-wrapper">
                             <canvas id="portfolioDistributionChart"></canvas>
                         </div>
                     </div>
                     <div class="chart-card">
-                        <div class="chart-title">📈 Rendimiento por Inversión</div>
+                        <div class="chart-title"><i class="fa-solid fa-chart-area"></i>  Performance by Investment</div>
                         <div class="chart-wrapper">
                             <canvas id="performanceChart"></canvas>
                         </div>
@@ -572,21 +889,21 @@
             let story = '';
             
             if (investmentCount === 0) {
-                story = `Tu viaje de inversión está a punto de comenzar. Tienes <span class="highlight">$${cashBalance.toLocaleString()}</span> disponibles para realizar tu primera inversión. ¡Es el momento perfecto para explorar el mercado y encontrar oportunidades!`;
+                story = `Your investment journey is about to begin. You have <span class="highlight">$${cashBalance.toLocaleString()}</span> available to make your first investment. It's the perfect time to explore the market and find opportunities!`;
             } else {
-                const performanceText = totalGainLoss >= 0 ? 'excelente progreso' : 'una oportunidad de aprendizaje';
-                const performanceEmoji = totalGainLoss >= 0 ? '🚀' : '📈';
-                const diversificationText = investmentCount === 1 ? 'Considera diversificar con más acciones' : `Tienes un portafolio diversificado con ${investmentCount} inversiones`;
+                const performanceText = totalGainLoss >= 0 ? 'excellent progress' : 'a learning opportunity';
+                const performanceEmoji = totalGainLoss >= 0 ? '<i class="fa-solid fa-circle-check"></i>' : '<i class="fa-solid fa-up-long"></i>';
+                const diversificationText = investmentCount === 1 ? 'Consider diversifying with more stocks' : `You have a diversified portfolio with ${investmentCount} investments`;
                 
-                story = `${performanceEmoji} Tu portafolio muestra ${performanceText} con un valor total de <span class="highlight">$${totalValue.toLocaleString()}</span>. 
-                Has invertido <span class="highlight">$${totalInvested.toLocaleString()}</span> y actualmente tienes ${totalGainLoss >= 0 ? 'una ganancia' : 'una variación'} de 
+                story = `${performanceEmoji} Your portfolio shows ${performanceText} with a total value of <span class="highlight">$${totalValue.toLocaleString()}</span>. 
+                You have invested <span class="highlight">$${totalInvested.toLocaleString()}</span> and currently have ${totalGainLoss >= 0 ? 'a gain' : 'a variation'} of 
                 <span class="highlight">${totalGainLoss >= 0 ? '+' : ''}$${totalGainLoss.toLocaleString()}</span>. 
-                ${diversificationText} y mantienes <span class="highlight">$${cashBalance.toLocaleString()}</span> en efectivo para futuras oportunidades.`;
+                ${diversificationText} and you maintain <span class="highlight">$${cashBalance.toLocaleString()}</span> in cash for future opportunities.`;
             }
 
             return `
                 <div class="investment-story">
-                    <div class="story-title">📖 Historia de tu Portafolio</div>
+                    <div class="story-title"><i class="fa-solid fa-book-bookmark"></i>  Your Portfolio Story</div>
                     <div class="story-text">${story}</div>
                 </div>
             `;
@@ -602,7 +919,7 @@
             // Portfolio Distribution Chart
             const distributionCtx = document.getElementById('portfolioDistributionChart');
             if (distributionCtx && portfolioData.investments && portfolioData.investments.length > 0) {
-                const labels = ['Efectivo', ...portfolioData.investments.map(inv => inv.symbol)];
+                const labels = ['Cash', ...portfolioData.investments.map(inv => inv.symbol)];
                 const data = [portfolioData.cashBalance, ...portfolioData.investments.map(inv => inv.currentValue)];
                 const colors = [
                     '#28a745',
@@ -647,7 +964,7 @@
             } else if (distributionCtx) {
                 distributionCtx.getContext('2d').clearRect(0, 0, distributionCtx.width, distributionCtx.height);
                 const parent = distributionCtx.parentElement;
-                parent.innerHTML = '<div style="display: flex; align-items: center; justify-content: center; height: 100%; color: #666;">No hay datos para mostrar</div>';
+                parent.innerHTML = '<div style="display: flex; align-items: center; justify-content: center; height: 100%; color: #666;">No data to display</div>';
             }
 
             // Performance Chart
@@ -662,7 +979,7 @@
                     data: {
                         labels: symbols,
                         datasets: [{
-                            label: 'Rendimiento (%)',
+                            label: 'Performance (%)',
                             data: percentages,
                             backgroundColor: colors,
                             borderWidth: 1,
@@ -701,7 +1018,16 @@
             } else if (performanceCtx) {
                 performanceCtx.getContext('2d').clearRect(0, 0, performanceCtx.width, performanceCtx.height);
                 const parent = performanceCtx.parentElement;
-                parent.innerHTML = '<div style="display: flex; align-items: center; justify-content: center; height: 100%; color: #666;">No hay datos para mostrar</div>';
+                parent.innerHTML = '<div style="display: flex; align-items: center; justify-content: center; height: 100%; color: #666;">No data to display</div>';
+            }
+        }
+
+        function logout() {
+            if (confirm('Are you sure you want to log out?')) {
+                localStorage.removeItem('userId');
+                localStorage.removeItem('user');
+                localStorage.removeItem('authToken');
+                window.location.href = 'login.html';
             }
         }
 
@@ -714,12 +1040,232 @@
             setTimeout(() => {
                 loadPortfolio();
             }, 500);
+            
+            // Check header after everything loads
+            setTimeout(checkHeaderStatus, 3000);
 
             // Refresh every 5 minutes
             setInterval(() => {
                 loadQuickStats();
                 loadPortfolio();
             }, 5 * 60 * 1000);
+        });
+
+        let currentNewsSlide = 0;
+        let newsData = [];
+        let autoSlideInterval;
+
+        // Función para cargar noticias financieras
+        async function cargarNoticias() {
+            try {
+                console.log('Cargando noticias financieras...');
+                const response = await fetch('/api/news');
+                const result = await response.json();
+                
+                if (result.success && result.data.length > 0) {
+                    newsData = result.data;
+                    displayNewsCarousel(newsData);
+                    createCarouselIndicators();
+                    startAutoSlide();
+                    console.log('✅ Noticias cargadas exitosamente:', newsData.length);
+                } else {
+                    throw new Error('No se pudieron cargar las noticias');
+                }
+            } catch (error) {
+                console.error('Error cargando noticias:', error);
+                displayNewsError();
+            }
+        }
+
+        // Mostrar noticias en el carrusel
+        function displayNewsCarousel(noticias) {
+            const carousel = document.getElementById('newsCarousel');
+            
+            if (!noticias || noticias.length === 0) {
+                carousel.innerHTML = '<div class="loading">No news available</div>';
+                return;
+            }
+
+            const newsHTML = noticias.map(noticia => {
+                const timeAgo = getTimeAgo(noticia.datetime);
+                const category = getCategoryDisplay(noticia.category);
+                
+                return `
+                    <div class="news-card" onclick="openNewsLink('${noticia.url}')">
+                        ${noticia.image ? 
+                            `<img src="${noticia.image}" alt="${noticia.headline}" loading="lazy" onerror="this.style.display='none'">` : 
+                            `<div style="height: 180px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 24px;"><i class="fa-solid fa-newspaper"></i></div>`
+                        }
+                        <div class="news-card-content">
+                            ${category ? `<div class="news-category-badge">${category}</div>` : ''}
+                            <h3>${noticia.headline}</h3>
+                            <p>${noticia.summary || 'No description available.'}</p>
+                            <div class="news-card-footer">
+                                <div>
+                                    ${noticia.source ? `<div class="news-source">${noticia.source}</div>` : ''}
+                                    <div class="news-time">${timeAgo}</div>
+                                </div>
+                                <a href="${noticia.url}" target="_blank" class="news-link" onclick="event.stopPropagation()">
+                                    Read more <i class="fa-solid fa-external-link"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            carousel.innerHTML = newsHTML;
+            currentNewsSlide = 0;
+            updateCarouselPosition();
+        }
+
+        // Crear indicadores del carrusel
+        function createCarouselIndicators() {
+            const indicatorsContainer = document.getElementById('carouselIndicators');
+            const totalSlides = Math.ceil(newsData.length / getVisibleCards());
+            
+            let indicatorsHTML = '';
+            for (let i = 0; i < totalSlides; i++) {
+                indicatorsHTML += `<div class="indicator ${i === 0 ? 'active' : ''}" onclick="goToSlide(${i})"></div>`;
+            }
+            
+            indicatorsContainer.innerHTML = indicatorsHTML;
+        }
+
+        // Obtener número de tarjetas visibles según el ancho de pantalla
+        function getVisibleCards() {
+            const width = window.innerWidth;
+            if (width >= 1200) return 3;
+            if (width >= 768) return 2;
+            return 1;
+        }
+
+        // Navegación del carrusel
+        function nextSlide() {
+            const maxSlides = Math.ceil(newsData.length / getVisibleCards()) - 1;
+            currentNewsSlide = currentNewsSlide >= maxSlides ? 0 : currentNewsSlide + 1;
+            updateCarouselPosition();
+            updateIndicators();
+            resetAutoSlide();
+        }
+
+        function previousSlide() {
+            const maxSlides = Math.ceil(newsData.length / getVisibleCards()) - 1;
+            currentNewsSlide = currentNewsSlide <= 0 ? maxSlides : currentNewsSlide - 1;
+            updateCarouselPosition();
+            updateIndicators();
+            resetAutoSlide();
+        }
+
+        function goToSlide(slideIndex) {
+            currentNewsSlide = slideIndex;
+            updateCarouselPosition();
+            updateIndicators();
+            resetAutoSlide();
+        }
+
+        // Actualizar posición del carrusel
+        function updateCarouselPosition() {
+            const carousel = document.getElementById('newsCarousel');
+            const cardWidth = 370; // 350px + 20px gap
+            const visibleCards = getVisibleCards();
+            const translateX = -(currentNewsSlide * cardWidth * visibleCards);
+            
+            carousel.style.transform = `translateX(${translateX}px)`;
+        }
+
+        // Actualizar indicadores
+        function updateIndicators() {
+            const indicators = document.querySelectorAll('.indicator');
+            indicators.forEach((indicator, index) => {
+                indicator.classList.toggle('active', index === currentNewsSlide);
+            });
+        }
+
+        // Auto-slide functionality
+        function startAutoSlide() {
+            autoSlideInterval = setInterval(() => {
+                nextSlide();
+            }, 8000); // Cambiar cada 8 segundos
+        }
+
+        function resetAutoSlide() {
+            clearInterval(autoSlideInterval);
+            startAutoSlide();
+        }
+
+        // Utility functions
+        function getTimeAgo(timestamp) {
+            const now = new Date();
+            const time = new Date(timestamp * 1000);
+            const diffInMinutes = Math.floor((now - time) / (1000 * 60));
+            
+            if (diffInMinutes < 60) {
+                return `${diffInMinutes} min ago`;
+            } else if (diffInMinutes < 1440) {
+                return `${Math.floor(diffInMinutes / 60)} h ago`;
+            } else {
+                return `${Math.floor(diffInMinutes / 1440)} d ago`;
+            }
+        }
+
+        function getCategoryDisplay(category) {
+            const categories = {
+                'market': '📈 Market',
+                'technology': '💻 Technology',
+                'earnings': '📊 Earnings',
+                'crypto': '₿ Crypto',
+                'energy': '⚡ Energy',
+                'general': '📰 General'
+            };
+            return categories[category] || '';
+        }
+
+        function openNewsLink(url) {
+            if (url && url !== '#') {
+                window.open(url, '_blank');
+            }
+        }
+
+        function displayNewsError() {
+            const carousel = document.getElementById('newsCarousel');
+            carousel.innerHTML = `
+                <div style="text-align: center; padding: 40px; color: #666;">
+                    <i class="fa-solid fa-exclamation-triangle" style="font-size: 48px; margin-bottom: 15px; color: #ffc107;"></i>
+                    <h3>Could not load news</h3>
+                    <p>Please try again in a few moments</p>
+                    <button onclick="cargarNoticias()" class="news-link">
+                        <i class="fa-solid fa-refresh"></i> Retry
+                    </button>
+                </div>
+            `;
+        }
+
+        // Responsive handling
+        window.addEventListener('resize', () => {
+            updateCarouselPosition();
+            createCarouselIndicators();
+        });
+
+        // Initialize everything when DOM is ready
+        document.addEventListener('DOMContentLoaded', function() {
+            // ...existing initialization...
+
+            // Load news after a short delay
+            setTimeout(() => {
+                cargarNoticias();
+            }, 1500);
+
+            // ...existing code...
+        });
+
+        // Stop auto-slide when page loses focus
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                clearInterval(autoSlideInterval);
+            } else {
+                startAutoSlide();
+            }
         });
     </script>
 </body>
