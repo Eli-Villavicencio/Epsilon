@@ -586,7 +586,6 @@
                     </div>
                     <button class="btn btn-success" onclick="showAddCashModal()">Add Money</button>
                     <button class="back-btn" onclick="window.location.href='dashboard.html'">Back to Dashboard</button>
-                    <button class="logout-btn" onclick="logout()" title="Sign Out"><i class="fa-solid fa-right-from-bracket"></i>  Exit</button>
                 </div>
             </div>
 
@@ -618,17 +617,52 @@
             </div>
         </div>
 
-    <!-- Add Cash Modal -->
-    <div id="addCashModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000;">
-        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 30px; border-radius: 12px; min-width: 300px; box-shadow: 0 20px 40px rgba(0,0,0,0.3);">
-            <h3 style="margin-top: 0; color: #293b36; font-family: 'Lexend', sans-serif;">💰 Add Money to Account</h3>
-            <div class="form-group">
-                <label for="cashAmount" style="font-family: 'Lexend', sans-serif;">Amount:</label>
-                <input type="number" id="cashAmount" min="1" step="0.01" placeholder="0.00" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; font-size: 16px;">
+        <!-- Add the missing message div -->
+        <div id="message"></div>
+    </div>
+
+    <!-- Improved Add Cash Modal -->
+    <div id="addCashModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 1000; backdrop-filter: blur(5px);">
+        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; border-radius: 15px; min-width: 400px; max-width: 500px; box-shadow: 0 20px 40px rgba(0,0,0,0.3); overflow: hidden;">
+            <!-- Modal Header -->
+            <div style="background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white; padding: 25px 30px; text-align: center;">
+                <div style="font-size: 48px; margin-bottom: 15px;"><i class="fa-solid fa-wallet"></i></div>
+                <h3 style="margin: 0; font-size: 24px; font-weight: bold; font-family: 'Lexend', sans-serif;">Add Money to Account</h3>
             </div>
-            <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px;">
-                <button class="btn-secondary" onclick="closeAddCashModal()" style="background: #6c757d; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: 700;">Cancel</button>
-                <button class="btn-success" onclick="addCash()" style="background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: 700;">Add</button>
+            
+            <!-- Modal Body -->
+            <div style="padding: 30px;">
+                <div style="background: #f8f9fa; padding: 20px; border-radius: 12px; margin-bottom: 25px; text-align: center;">
+                    <div style="color: #666; font-size: 14px; margin-bottom: 8px;">Current Balance</div>
+                    <div id="modalCurrentBalance" style="font-size: 24px; font-weight: bold; color: #28a745;">$0.00</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="cashAmount" style="font-family: 'Lexend', sans-serif; font-weight: 600; color: #333; margin-bottom: 8px; display: block;">Amount to Add:</label>
+                    <input type="number" id="cashAmount" min="1" step="0.01" placeholder="Enter amount..." 
+                           style="width: 100%; padding: 15px; border: 2px solid #ddd; border-radius: 12px; font-size: 18px; font-weight: 600; text-align: center;"
+                           onkeypress="if(event.key==='Enter') addCash()">
+                </div>
+                
+                <div id="newBalancePreview" style="background: #e7f5e7; padding: 15px; border-radius: 12px; margin-top: 15px; text-align: center; display: none;">
+                    <div style="color: #28a745; font-size: 14px; margin-bottom: 5px;">New Balance Will Be:</div>
+                    <div id="previewBalance" style="font-size: 20px; font-weight: bold; color: #28a745;">$0.00</div>
+                </div>
+                
+                <!-- Add message div inside modal -->
+                <div id="modalMessage" style="margin-top: 15px;"></div>
+            </div>
+            
+            <!-- Modal Actions -->
+            <div style="padding: 0 30px 30px 30px; display: flex; gap: 15px; justify-content: flex-end;">
+                <button onclick="closeAddCashModal()" 
+                        style="background: #6c757d; color: white; border: none; padding: 12px 24px; border-radius: 12px; cursor: pointer; font-weight: 700; font-family: 'Lexend', sans-serif; transition: all 0.3s;">
+                    <i class="fa-solid fa-xmark"></i> Cancel
+                </button>
+                <button id="addCashBtn" onclick="addCash()" 
+                        style="background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white; border: none; padding: 12px 24px; border-radius: 12px; cursor: pointer; font-weight: 700; font-family: 'Lexend', sans-serif; transition: all 0.3s; min-width: 120px;">
+                    <i class="fa-solid fa-plus"></i> Add Money
+                </button>
             </div>
         </div>
     </div>
@@ -1312,17 +1346,34 @@
 
         // Update the original showMessage function to use popup for important messages
         function showMessage(text, type) {
-            // For success and error messages, use popup
+            console.log(`Message: ${text} (${type})`);
+            
+            // Try to find message div
+            let messageDiv = document.getElementById('message');
+            
+            // If message div doesn't exist, create it
+            if (!messageDiv) {
+                console.warn('Message div not found, creating one...');
+                messageDiv = document.createElement('div');
+                messageDiv.id = 'message';
+                messageDiv.style.position = 'fixed';
+                messageDiv.style.top = '20px';
+                messageDiv.style.right = '20px';
+                messageDiv.style.zIndex = '9999';
+                messageDiv.style.maxWidth = '400px';
+                document.body.appendChild(messageDiv);
+            }
+            
+            // For success and error messages, prefer popup
             if (type === 'success' || type === 'error') {
                 const title = type === 'success' ? ' Successful Operation' : ' Error';
                 showMessagePopup(type, title, text);
             } else {
-                // For other messages, use the original method
-                const messageDiv = document.getElementById('message');
+                // For other messages, use the message div
                 messageDiv.innerHTML = `<div class="message ${type}">${text}</div>`;
                 
                 setTimeout(() => {
-                    if (messageDiv.innerHTML.includes(text)) {
+                    if (messageDiv && messageDiv.innerHTML.includes(text)) {
                         messageDiv.innerHTML = '';
                     }
                 }, 8000);
@@ -1360,13 +1411,44 @@
 
         // Función para mostrar modal de agregar dinero
         function showAddCashModal() {
-            document.getElementById('addCashModal').style.display = 'block';
+            const modal = document.getElementById('addCashModal');
+            const cashAmountInput = document.getElementById('cashAmount');
+            const currentBalanceEl = document.getElementById('modalCurrentBalance');
+            
+            if (modal) {
+                // Update current balance in modal
+                const currentBalance = document.getElementById('cashBalance').textContent;
+                if (currentBalanceEl) {
+                    currentBalanceEl.textContent = currentBalance;
+                }
+                
+                modal.style.display = 'block';
+                
+                // Clear and focus input
+                if (cashAmountInput) {
+                    cashAmountInput.value = '';
+                    setTimeout(() => cashAmountInput.focus(), 100);
+                }
+                
+                // Clear any previous messages
+                const modalMessage = document.getElementById('modalMessage');
+                if (modalMessage) {
+                    modalMessage.innerHTML = '';
+                }
+                
+                // Hide preview
+                document.getElementById('newBalancePreview').style.display = 'none';
+            } else {
+                console.error('Add Cash Modal not found');
+            }
         }
 
-        // Función para cerrar modal de agregar dinero
+        // Improved closeAddCashModal function
         function closeAddCashModal() {
             const modal = document.getElementById('addCashModal');
             const cashAmountInput = document.getElementById('cashAmount');
+            const modalMessage = document.getElementById('modalMessage');
+            const addCashBtn = document.getElementById('addCashBtn');
             
             if (modal) {
                 modal.style.display = 'none';
@@ -1375,22 +1457,68 @@
             if (cashAmountInput) {
                 cashAmountInput.value = '';
             }
+            
+            if (modalMessage) {
+                modalMessage.innerHTML = '';
+            }
+            
+            // Reset button state
+            if (addCashBtn) {
+                addCashBtn.disabled = false;
+                addCashBtn.innerHTML = '<i class="fa-solid fa-plus"></i> Add Money';
+            }
+            
+            // Hide preview
+            document.getElementById('newBalancePreview').style.display = 'none';
         }
 
-        // Función para agregar dinero
+        // Add real-time balance preview
+        document.addEventListener('DOMContentLoaded', function() {
+            const cashAmountInput = document.getElementById('cashAmount');
+            if (cashAmountInput) {
+                cashAmountInput.addEventListener('input', function() {
+                    const amount = parseFloat(this.value) || 0;
+                    const currentBalanceText = document.getElementById('cashBalance').textContent;
+                    const currentBalance = parseFloat(currentBalanceText.replace(/[$,]/g, '')) || 0;
+                    
+                    const previewEl = document.getElementById('newBalancePreview');
+                    const previewBalanceEl = document.getElementById('previewBalance');
+                    
+                    if (amount > 0) {
+                        const newBalance = currentBalance + amount;
+                        previewBalanceEl.textContent = `$${newBalance.toLocaleString('en-US', {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2
+                        })}`;
+                        previewEl.style.display = 'block';
+                    } else {
+                        previewEl.style.display = 'none';
+                    }
+                });
+            }
+        });
+
+        // Enhanced addCash function with same functionality as manage-investments
         async function addCash() {
             const cashAmountInput = document.getElementById('cashAmount');
             if (!cashAmountInput) {
-                showMessage('Error: elemento de cantidad no encontrado', 'error');
+                console.error('Cash amount input not found');
                 return;
             }
             
             const amount = parseFloat(cashAmountInput.value);
             
-            if (!amount || amount <= 0) {
-                showMessage('Ingresa una cantidad válida', 'error');
+            if (!amount || amount <= 0 || isNaN(amount)) {
+                showModalMessage('Please enter a valid amount greater than 0', 'error');
                 return;
             }
+            
+            const addButton = document.getElementById('addCashBtn');
+            const originalText = addButton.innerHTML;
+            
+            // Disable button and show loading
+            addButton.disabled = true;
+            addButton.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Adding...';
             
             try {
                 const response = await fetch('/api/investments/cash/add', {
@@ -1405,45 +1533,100 @@
                 const result = await response.json();
                 
                 if (result.success) {
-                    showMessage(` ${result.message}`, 'Success');
-                    
-                    // Actualizar balance en la página
-                    document.getElementById('cashBalance').textContent = `$${parseFloat(result.data.newBalance).toLocaleString()}`;
-                    
+                    // Close modal first
                     closeAddCashModal();
                     
-                    // Actualizar balance en el header
+                    // Show success popup with details (same as manage-investments)
+                    const addCashDetails = {
+                        'Amount Added': `$${amount.toFixed(2)}`,
+                        'Previous Balance': `$${(parseFloat(result.data.newBalance) - amount).toLocaleString()}`,
+                        'New Balance': `$${parseFloat(result.data.newBalance).toLocaleString()}`
+                    };
+
+                    showMessagePopup(
+                        'success',
+                        'Money Added Successfully!',
+                        `$${amount.toFixed(2)} has been added to your account.`,
+                        addCashDetails
+                    );
+                    
+                    // Update balance in the page immediately
+                    const cashBalanceElement = document.getElementById('cashBalance');
+                    if (cashBalanceElement) {
+                        cashBalanceElement.textContent = `$${parseFloat(result.data.newBalance).toLocaleString()}`;
+                    }
+                    
+                    // Update header balance if available
                     if (window.headerLoader && window.headerLoader.updateCashBalance) {
                         window.headerLoader.updateCashBalance(result.data.newBalance);
                     }
 
-                    // Refrescar balance después de un momento
+                    // Reload cash balance to ensure consistency
                     setTimeout(() => {
                         loadCashBalance();
-                    }, 500);
+                    }, 1000);
+                    
                 } else {
-                    showMessage(result.message, 'error');
+                    showModalMessage(`❌ ${result.message}`, 'error');
                 }
             } catch (error) {
                 console.error('Error adding cash:', error);
-                showMessage('Error agregando dinero. Intenta de nuevo.', 'error');
+                showModalMessage('❌ Connection error. Please try again.', 'error');
+            } finally {
+                // Re-enable button
+                addButton.disabled = false;
+                addButton.innerHTML = originalText;
             }
         }
 
-        // Cerrar modal al hacer clic fuera de él
+        // New function to show messages inside the modal (same as manage-investments)
+        function showModalMessage(text, type) {
+            let modalMessageDiv = document.getElementById('modalMessage');
+            
+            if (!modalMessageDiv) {
+                // If modal message div doesn't exist, fallback to regular message
+                showMessage(text, type);
+                return;
+            }
+            
+            const className = type === 'success' ? 'success' : 'error';
+            modalMessageDiv.innerHTML = `<div class="message ${className}" style="margin: 0; text-align: center;">${text}</div>`;
+            
+            // Clear message after 5 seconds
+            setTimeout(() => {
+                if (modalMessageDiv) {
+                    modalMessageDiv.innerHTML = '';
+                }
+            }, 5000);
+        }
+
+        // Enhanced close modal event listeners
         document.addEventListener('click', function(e) {
-            const modal = document.getElementById('addCashModal');
-            if (e.target === modal) {
+            const addCashModal = document.getElementById('addCashModal');
+            
+            // Close add cash modal when clicking on backdrop
+            if (e.target === addCashModal && addCashModal.style.display === 'block') {
                 closeAddCashModal();
+            }
+            
+            // Close message modal
+            const messageModal = document.getElementById('messageModal');
+            const modalBackdrop = e.target.closest('.modal-backdrop');
+            if (modalBackdrop && messageModal.style.display === 'flex') {
+                closeMessageModal();
             }
         });
 
-        // Cerrar modal con tecla Escape
+        // Enhanced escape key handling
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') {
-                const modal = document.getElementById('addCashModal');
-                if (modal.style.display === 'block') {
+                const addCashModal = document.getElementById('addCashModal');
+                const messageModal = document.getElementById('messageModal');
+                
+                if (addCashModal.style.display === 'block') {
                     closeAddCashModal();
+                } else if (messageModal.style.display === 'flex') {
+                    closeMessageModal();
                 }
             }
         });
