@@ -22,7 +22,7 @@ const register = async (req, res) => {
         if (!username || !email || !password) {
             return res.status(400).json({
                 success: false,
-                message: 'Username, email y password son requeridos'
+                message: 'Username, email and password are required'
             });
         }
 
@@ -39,7 +39,7 @@ const register = async (req, res) => {
         if (existingUser) {
             return res.status(400).json({
                 success: false,
-                message: 'El usuario o email ya existe'
+                message: 'User with this email or username already exists'
             });
         }
 
@@ -47,7 +47,7 @@ const register = async (req, res) => {
         if (password.length < 6) {
             return res.status(400).json({
                 success: false,
-                message: 'La contraseña debe tener al menos 6 caracteres'
+                message: 'Password must be at least 6 characters long'
             });
         }
 
@@ -56,7 +56,7 @@ const register = async (req, res) => {
         if (initialCashBalance < 0) {
             return res.status(400).json({
                 success: false,
-                message: 'El balance inicial no puede ser negativo'
+                message: 'Initial balance cannot be negative'
             });
         }
 
@@ -78,7 +78,7 @@ const register = async (req, res) => {
 
         res.status(201).json({
             success: true,
-            message: 'Usuario registrado exitosamente',
+            message: 'User registered successfully',
             data: {
                 token,
                 user: newUser.toJSON()
@@ -91,7 +91,7 @@ const register = async (req, res) => {
         if (error.name === 'SequelizeValidationError') {
             return res.status(400).json({
                 success: false,
-                message: 'Datos de entrada inválidos',
+                message: 'Invalid input data',
                 errors: error.errors.map(e => e.message)
             });
         }
@@ -99,13 +99,13 @@ const register = async (req, res) => {
         if (error.name === 'SequelizeUniqueConstraintError') {
             return res.status(400).json({
                 success: false,
-                message: 'El usuario o email ya existe'
+                message: 'User with this email or username already exists'
             });
         }
 
         res.status(500).json({
             success: false,
-            message: 'Error interno del servidor'
+            message: 'Internal server error'
         });
     }
 };
@@ -119,7 +119,7 @@ const login = async (req, res) => {
         if (!email || !password) {
             return res.status(400).json({
                 success: false,
-                message: 'Email y contraseña son requeridos'
+                message: 'Email and password are required'
             });
         }
 
@@ -128,7 +128,7 @@ const login = async (req, res) => {
         if (!user) {
             return res.status(401).json({
                 success: false,
-                message: 'Credenciales inválidas'
+                message: 'Invalid credentials'
             });
         }
 
@@ -137,7 +137,7 @@ const login = async (req, res) => {
         if (!isPasswordValid) {
             return res.status(401).json({
                 success: false,
-                message: 'Credenciales inválidas'
+                message: 'Invalid credentials'
             });
         }
 
@@ -149,7 +149,7 @@ const login = async (req, res) => {
 
         res.json({
             success: true,
-            message: 'Login exitoso',
+            message: 'Login successful',
             data: {
                 token,
                 user: user.toJSON()
@@ -160,7 +160,7 @@ const login = async (req, res) => {
         console.error('Login error:', error);
         res.status(500).json({
             success: false,
-            message: 'Error interno del servidor'
+            message: 'Internal server error'
         });
     }
 };
@@ -172,7 +172,7 @@ const getProfile = async (req, res) => {
         if (!user) {
             return res.status(404).json({
                 success: false,
-                message: 'Usuario no encontrado'
+                message: 'User not found'
             });
         }
 
@@ -186,7 +186,7 @@ const getProfile = async (req, res) => {
         console.error('Get profile error:', error);
         res.status(500).json({
             success: false,
-            message: 'Error obteniendo perfil del usuario'
+            message: 'Error getting user profile'
         });
     }
 };
@@ -198,7 +198,7 @@ const refreshToken = async (req, res) => {
         if (!user) {
             return res.status(404).json({
                 success: false,
-                message: 'Usuario no encontrado'
+                message: 'User not found'
             });
         }
 
@@ -216,7 +216,7 @@ const refreshToken = async (req, res) => {
         console.error('Refresh token error:', error);
         res.status(500).json({
             success: false,
-            message: 'Error renovando token'
+            message: 'Error refreshing token'
         });
     }
 };
@@ -226,13 +226,13 @@ const logout = async (req, res) => {
     try {
         res.json({
             success: true,
-            message: 'Logout exitoso'
+            message: 'Logout successful'
         });
     } catch (error) {
         console.error('Logout error:', error);
         res.status(500).json({
             success: false,
-            message: 'Error en logout'
+            message: 'Error during logout'
         });
     }
 };
@@ -251,7 +251,7 @@ const verify = async (req, res) => {
         console.error('Verify token error:', error);
         res.status(500).json({
             success: false,
-            message: 'Error verificando token'
+            message: 'Error verifying token'
         });
     }
 };
@@ -264,21 +264,21 @@ const changePassword = async (req, res) => {
         if (!currentPassword || !newPassword || !confirmPassword) {
             return res.status(400).json({
                 success: false,
-                message: 'Todos los campos son requeridos'
+                message: 'All fields are required'
             });
         }
 
         if (newPassword !== confirmPassword) {
             return res.status(400).json({
                 success: false,
-                message: 'Las nuevas contraseñas no coinciden'
+                message: 'New passwords do not match'
             });
         }
 
         if (newPassword.length < 6) {
             return res.status(400).json({
                 success: false,
-                message: 'La nueva contraseña debe tener al menos 6 caracteres'
+                message: 'New password must be at least 6 characters long'
             });
         }
 
@@ -286,7 +286,7 @@ const changePassword = async (req, res) => {
         if (!user) {
             return res.status(404).json({
                 success: false,
-                message: 'Usuario no encontrado'
+                message: 'User not found'
             });
         }
 
@@ -295,7 +295,7 @@ const changePassword = async (req, res) => {
         if (!isCurrentPasswordValid) {
             return res.status(400).json({
                 success: false,
-                message: 'La contraseña actual es incorrecta'
+                message: 'Current password is incorrect'
             });
         }
 
@@ -304,14 +304,14 @@ const changePassword = async (req, res) => {
 
         res.json({
             success: true,
-            message: 'Contraseña cambiada exitosamente'
+            message: 'Password changed successfully'
         });
 
     } catch (error) {
         console.error('Change password error:', error);
         res.status(500).json({
             success: false,
-            message: 'Error cambiando contraseña'
+            message: 'Error changing password'
         });
     }
 };
@@ -324,7 +324,7 @@ const requestPasswordReset = async (req, res) => {
         if (!email) {
             return res.status(400).json({
                 success: false,
-                message: 'Email es requerido'
+                message: 'Email is required'
             });
         }
 
@@ -333,7 +333,7 @@ const requestPasswordReset = async (req, res) => {
             // Don't reveal that user doesn't exist
             return res.json({
                 success: true,
-                message: 'Si el email existe, recibirás instrucciones para restablecer tu contraseña'
+                message: 'If the email exists, you will receive instructions to reset your password'
             });
         }
 
@@ -352,7 +352,7 @@ const requestPasswordReset = async (req, res) => {
 
         res.json({
             success: true,
-            message: 'Instrucciones de restablecimiento enviadas al email',
+            message: 'Password reset instructions sent to email',
             resetLink: process.env.NODE_ENV === 'development' ? resetLink : undefined
         });
 
@@ -360,7 +360,7 @@ const requestPasswordReset = async (req, res) => {
         console.error('Request password reset error:', error);
         res.status(500).json({
             success: false,
-            message: 'Error procesando solicitud de restablecimiento'
+            message: 'Error processing password reset request'
         });
     }
 };
@@ -382,7 +382,7 @@ const verifyResetToken = async (req, res) => {
         if (!user) {
             return res.status(400).json({
                 success: false,
-                message: 'Token inválido o expirado'
+                message: 'Invalid or expired token'
             });
         }
 
@@ -397,7 +397,7 @@ const verifyResetToken = async (req, res) => {
         console.error('Verify reset token error:', error);
         res.status(500).json({
             success: false,
-            message: 'Error verificando token'
+            message: 'Error verifying token'
         });
     }
 };
@@ -410,21 +410,21 @@ const resetPassword = async (req, res) => {
         if (!token || !newPassword || !confirmPassword) {
             return res.status(400).json({
                 success: false,
-                message: 'Todos los campos son requeridos'
+                message: 'All fields are required'
             });
         }
 
         if (newPassword !== confirmPassword) {
             return res.status(400).json({
                 success: false,
-                message: 'Las contraseñas no coinciden'
+                message: 'Passwords do not match'
             });
         }
 
         if (newPassword.length < 6) {
             return res.status(400).json({
                 success: false,
-                message: 'La contraseña debe tener al menos 6 caracteres'
+                message: 'Password must be at least 6 characters long'
             });
         }
 
@@ -440,7 +440,7 @@ const resetPassword = async (req, res) => {
         if (!user) {
             return res.status(400).json({
                 success: false,
-                message: 'Token inválido o expirado'
+                message: 'Invalid or expired token'
             });
         }
 
@@ -453,14 +453,14 @@ const resetPassword = async (req, res) => {
 
         res.json({
             success: true,
-            message: 'Contraseña restablecida exitosamente'
+            message: 'Password reset successfully'
         });
 
     } catch (error) {
         console.error('Reset password error:', error);
         res.status(500).json({
             success: false,
-            message: 'Error restableciendo contraseña'
+            message: 'Error resetting password'
         });
     }
 };

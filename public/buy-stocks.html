@@ -721,10 +721,10 @@
                             </div>
                             <div class="stock-actions">
                                 <a href="stock-details.html?symbol=${stock.symbol}" class="stock-action-btn" target="_blank">
-                                     Ver Detalles
+                                    Details
                                 </a>
                                 <button class="stock-action-btn primary" onclick="selectStockFromSearch('${stock.symbol}')">
-                                    Seleccionar
+                                    Buy
                                 </button>
                             </div>
                         </div>
@@ -817,10 +817,10 @@
                         </div>
                         <div class="stock-actions">
                             <a href="stock-details.html?symbol=${symbol}" class="stock-action-btn" target="_blank">
-                                 Ver Detalles
+                                 Details
                             </a>
                             <button class="stock-action-btn primary" onclick="selectStockFromSearch('${symbol}')">
-                                 Seleccionar
+                                 Buy
                             </button>
                         </div>
                     </div>
@@ -878,10 +878,10 @@
                                 </div>
                                 <div class="stock-actions">
                                     <a href="stock-details.html?symbol=${item.symbol}" class="stock-action-btn" target="_blank">
-                                        📊 Ver Detalles
+                                    Details
                                     </a>
                                     <button class="stock-action-btn primary" onclick="selectStockFromSearch('${item.symbol}')">
-                                        💰 Seleccionar
+                                         Buy
                                     </button>
                                 </div>
                             </div>
@@ -952,10 +952,10 @@
                             </div>
                             <div class="stock-actions">
                                 <a href="stock-details.html?symbol=${symbol}" class="stock-action-btn" target="_blank">
-                                    📊 Ver Detalles
+                                    Details
                                 </a>
                                 <button class="stock-action-btn primary" onclick="selectStockFromSearch('${symbol}')">
-                                    💰 Seleccionar
+                                     Buy
                                 </button>
                             </div>
                         </div>
@@ -978,10 +978,10 @@
                         </div>
                         <div class="stock-actions">
                             <a href="stock-details.html?symbol=${symbol}" class="stock-action-btn" target="_blank">
-                                📊 Ver Detalles
+                                 Details
                             </a>
                             <button class="stock-action-btn primary" onclick="selectStockFromSearch('${symbol}')">
-                                💰 Seleccionar
+                                Buy
                             </button>
                         </div>
                     </div>
@@ -1237,17 +1237,17 @@
                 modalHeader.classList.add('success');
                 modalIcon.textContent = '🎉';
                 modalOkBtn.className = 'modal-btn modal-btn-success';
-                modalOkBtn.innerHTML = '✅ Perfect!';
+                modalOkBtn.innerHTML = ' Perfect!';
             } else if (type === 'error') {
                 modalHeader.classList.add('error');
                 modalIcon.textContent = '❌';
                 modalOkBtn.className = 'modal-btn modal-btn-primary';
-                modalOkBtn.innerHTML = '🔄 Try Again';
+                modalOkBtn.innerHTML = ' Try Again';
             } else if (type === 'warning') {
                 modalHeader.classList.add('warning');
                 modalIcon.textContent = '⚠️';
                 modalOkBtn.className = 'modal-btn modal-btn-primary';
-                modalOkBtn.innerHTML = '✅ Understood';
+                modalOkBtn.innerHTML = ' Understood';
             }
 
             modalTitle.textContent = title;
@@ -1314,7 +1314,7 @@
         function showMessage(text, type) {
             // For success and error messages, use popup
             if (type === 'success' || type === 'error') {
-                const title = type === 'success' ? '✅ Successful Operation' : '❌ Error';
+                const title = type === 'success' ? ' Successful Operation' : ' Error';
                 showMessagePopup(type, title, text);
             } else {
                 // For other messages, use the original method
@@ -1405,7 +1405,7 @@
                 const result = await response.json();
                 
                 if (result.success) {
-                    showMessage(`✅ ${result.message}`, 'success');
+                    showMessage(` ${result.message}`, 'Success');
                     
                     // Actualizar balance en la página
                     document.getElementById('cashBalance').textContent = `$${parseFloat(result.data.newBalance).toLocaleString()}`;

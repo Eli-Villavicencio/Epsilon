@@ -5,8 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Market - Portfolio Management</title>
     <script src="./js/header-loader.js"></script>
+    <link rel = "stylesheet" href ="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="./css/global.css">
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Teachers:ital,wght@0,400..800;1,400..800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&family=Teachers:ital,wght@0,400..800;1,400..800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Didact+Gothic&family=Lexend:wght@100..900&family=Teachers:ital,wght@0,400..800&display=swap');
         body { 
             font-family: Arial, sans-serif; 
             margin: 0; 
@@ -38,23 +42,27 @@
             font-size: 28px;
             font-weight: 700;
             color: #293b36;
+            font-family:"Lexend", sans-serif;
         }
         
         .page-subtitle {
             margin: 0;
             color: #666;
             font-size: 16px;
+            font-family:"Didact Gothic", sans-serif;
         }
 
         .refresh-btn { 
             background: linear-gradient(135deg, #28a745 0%, #20c997 100%); 
             color: white; 
             border: none; 
-            padding: 10px 20px; 
-            border-radius: 4px; 
+            padding: 15px 20px; 
+            border-radius: 16px; 
             cursor: pointer; 
             margin-left: 10px; 
             font-weight: 700;
+            font-family:"Teachers", sans-serif;
+            font-size:19px;
         }
         .refresh-btn:hover { 
             transform: translateY(-2px); 
@@ -90,6 +98,8 @@
             color: #333; 
             border-bottom: 2px solid #007bff; 
             padding-bottom: 10px; 
+            font-family:"Lexend", sans-serif;
+
         }
         .stock-item { 
             padding: 15px; 
@@ -99,6 +109,7 @@
             align-items: center; 
             cursor: pointer; 
             transition: background-color 0.2s; 
+            background: linear-gradient(135deg, #5674f8 0%, #764ba2 100%);
         }
         .stock-item:hover { 
             background-color: #f8f9fa; 
@@ -112,26 +123,30 @@
         .stock-symbol { 
             font-weight: bold; 
             font-size: 16px; 
-            color: #333; 
+            color: rgb(218, 215, 215); 
+            font-family:"Didact Gothic", sans-serif;
         }
         .stock-name { 
-            color: #666; 
+            color: #e6e4e4; 
             font-size: 14px; 
             margin-top: 2px; 
+            font-family:"Lexend",sans-serif;
         }
         .stock-price { 
-            text-align: right; 
+            text-align: right;
+            font-family:"Didact Gothic", sans-serif; 
         }
         .price { 
-            font-size: 18px; 
+            font-size: 20spx; 
             font-weight: bold; 
             color: #333; 
+            font-family:"Didact Gothic", sans-serif;
         }
         .change-positive { 
-            color: #28a745; 
+            color: #c5fdd3; 
         }
         .change-negative { 
-            color: #dc3545; 
+            color: #fdc5d1; 
         }
         .change { 
             font-size: 14px; 
@@ -147,12 +162,19 @@
             display: flex; 
             gap: 10px; 
             margin-bottom: 15px; 
+            border-radius: 20px; 
+            background: #e3e3ff;
+        }
+        .search-box #searchInput{
+            font-family:"Didact Gothic", sans-serif; 
+            border-radius: 20px; 
+            background: #e3e3ff;
         }
         .search-input { 
             flex-grow: 1; 
             padding: 10px; 
             border: 1px solid #ddd; 
-            border-radius: 4px; 
+            
         }
         .search-btn { 
             background: #007bff; 
@@ -186,17 +208,24 @@
         .market-status { 
             display: inline-block; 
             padding: 5px 10px; 
-            border-radius: 15px; 
+            border-radius: 18px; 
             font-size: 12px; 
             font-weight: bold; 
         }
         .market-open { 
             background: #d4edda; 
             color: #155724; 
+            font-size:26px;
+            font-family:"Teachers", sans-serif;
+            padding:12px 80px;
         }
         .market-closed { 
             background: #f8d7da; 
             color: #721c24; 
+            font-size:26px;
+            font-family:"Teachers", sans-serif;
+            padding:12px 80px;
+
         }
         .indices-grid { 
             display: grid; 
@@ -208,8 +237,10 @@
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
             color: white; 
             padding: 20px; 
-            border-radius: 8px; 
+            border-radius: 12px; 
             text-align: center; 
+            font-family: "Didact Gothic", sans-serif;
+            font-weight:bold;
         }
         
         /* New style for improved search */
@@ -258,12 +289,14 @@
         }
         .stock-action-btn {
             padding: 4px 8px;
-            border: 1px solid #007bff;
-            background: white;
+            border: 1px solid #568eca;
+            background: rgb(232, 241, 255);
             color: #007bff;
             border-radius: 4px;
             cursor: pointer;
-            font-size: 11px;
+            font-size: 14px;
+            font-family:"Teachers", sans-serif;
+            font-weight:700;
             text-decoration: none;
             text-align: center;
             transition: all 0.2s;
@@ -278,12 +311,12 @@
     <div class="main-content">
         <div class="page-header">
             <div>
-                <h1 class="page-title">🏪 Financial Market</h1>
+                <h1 class="page-title"><i class="fa-solid fa-store"></i> Financial Market</h1>
                 <p class="page-subtitle">Explore the market and discover investment opportunities</p>
             </div>
             <div style="display: flex; gap: 10px; align-items: center;">
-                <button class="refresh-btn" onclick="loadMarketData()">🔄 Update Data</button>
-                <button class="logout-btn" onclick="logout()" title="Sign Out">🚪 Exit</button>
+                <button class="refresh-btn" onclick="loadMarketData()"><i class="fa-solid fa-arrows-rotate"></i> Update Data</button>
+              <!--<button class="logout-btn" onclick="logout()" title="Sign Out"><i class="fa-solid fa-right-from-bracket"></i> Exit</button>-->
             </div>
         </div>
 
@@ -309,7 +342,7 @@
             <h3>Search Stocks</h3>
             <div class="search-box">
                 <input type="text" id="searchInput" placeholder="Search by symbol or name (e.g: AAPL, Apple, GOOGL)">
-                <button onclick="searchStocks()">🔍</button>
+                <button onclick="searchStocks()"><i class="fa-solid fa-magnifying-glass"></i></button>
             </div>
             <div id="searchResults"></div>
         </div>
@@ -450,10 +483,10 @@
                     </div>
                     <div class="stock-actions">
                         <a href="stock-details.html?symbol=${stock.symbol}" class="stock-action-btn" target="_blank">
-                            📊 Details
+                             Details
                         </a>
                         <a href="buy-stocks.html?symbol=${stock.symbol}" class="stock-action-btn">
-                            💰 Buy
+                             Buy
                         </a>
                     </div>
                 </div>
@@ -470,7 +503,7 @@
             }
             
             try {
-                resultsContainer.innerHTML = '<div class="loading">🔍 Searching...</div>';
+                resultsContainer.innerHTML = '<div class="loading"><i class="fa-solid fa-magnifying-glass"></i> Searching...</div>';
                 
                 const response = await fetch(`/api/market/search-stocks?query=${encodeURIComponent(query)}`);
                 const result = await response.json();
@@ -488,7 +521,7 @@
                     const stockItems = await Promise.all(stockPromises);
                     resultsContainer.innerHTML = `
                         <div class="card">
-                            <h4>📊 Search results for "${query}"</h4>
+                            <h4><i class="fa-solid fa-magnifying-glass"></i> Search results for "${query}"</h4>
                             ${stockItems.join('')}
                         </div>
                     `;
@@ -592,3 +625,4 @@
     </script>
 </body>
 </html>
+

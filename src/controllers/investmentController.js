@@ -59,7 +59,7 @@ const getAllInvestments = async (req, res) => {
         console.error('Error getting investments:', error);
         res.status(500).json({
             success: false,
-            message: 'Error obteniendo inversiones'
+            message: 'Error retrieving investments'
         });
     }
 };
@@ -77,7 +77,7 @@ const getInvestmentById = async (req, res) => {
         if (!investment) {
             return res.status(404).json({
                 success: false,
-                message: 'Inversión no encontrada'
+                message: 'Investment not found'
             });
         }
 
@@ -116,7 +116,7 @@ const getInvestmentById = async (req, res) => {
         console.error('Error getting investment:', error);
         res.status(500).json({
             success: false,
-            message: 'Error obteniendo inversión'
+            message: 'Error retrieving investment'
         });
     }
 };
@@ -134,7 +134,7 @@ const createInvestment = async (req, res) => {
             await transaction.rollback();
             return res.status(400).json({
                 success: false,
-                message: 'Símbolo y cantidad válida son requeridos'
+                message: 'Symbol and valid quantity are required'
             });
         }
 
@@ -144,7 +144,7 @@ const createInvestment = async (req, res) => {
             await transaction.rollback();
             return res.status(400).json({
                 success: false,
-                message: 'No se pudo obtener el precio de la acción'
+                message: 'Could not get stock price'
             });
         }
 
@@ -157,7 +157,7 @@ const createInvestment = async (req, res) => {
             await transaction.rollback();
             return res.status(404).json({
                 success: false,
-                message: 'Usuario no encontrado'
+                message: 'User not found'
             });
         }
 
@@ -166,7 +166,7 @@ const createInvestment = async (req, res) => {
             await transaction.rollback();
             return res.status(400).json({
                 success: false,
-                message: `Fondos insuficientes. Necesitas $${totalCost.toFixed(2)} pero solo tienes $${parseFloat(user.cashBalance).toFixed(2)}`
+                message: `Insufficient funds. You need $${totalCost.toFixed(2)} but only have $${parseFloat(user.cashBalance).toFixed(2)}`
             });
         }
 
@@ -222,7 +222,7 @@ const createInvestment = async (req, res) => {
 
         res.status(201).json({
             success: true,
-            message: `Compra exitosa: ${quantity} acciones de ${symbol.toUpperCase()} por $${totalCost.toFixed(2)}`,
+            message: `Successfully purchased ${quantity} shares of ${symbol.toUpperCase()} for $${totalCost.toFixed(2)}`,
             data: {
                 investment: investment.toJSON(),
                 remainingCash: newCashBalance,
@@ -240,120 +240,160 @@ const createInvestment = async (req, res) => {
         console.error('Error creating investment:', error);
         res.status(500).json({
             success: false,
-            message: 'Error procesando la compra'
+            message: 'Error processing purchase'
         });
     }
 };
 
 // Sell stock
 const sellInvestment = async (req, res) => {
-    const transaction = await sequelize.transaction();
+    const t = await sequelize.transaction();
     
     try {
         const { id } = req.params;
         const { quantity } = req.body;
         const userId = req.user.id;
 
-        // Validate input
-        if (!quantity || quantity <= 0) {
-            await transaction.rollback();
+        // Convert and validate quantity
+        const sellQuantity = parseInt(quantity);
+        if (!sellQuantity || sellQuantity <= 0 || isNaN(sellQuantity)) {
+            await t.rollback();
             return res.status(400).json({
                 success: false,
-                message: 'Cantidad válida es requerida'
+                message: 'Valid quantity is required for sale'
             });
         }
 
-        // Find investment
+        // Find the investment with explicit lock
         const investment = await Investment.findOne({
-            where: { id, userId },
-            transaction
+            where: { id: id, userId: userId },
+            transaction: t,
+            lock: true // Add explicit lock to prevent race conditions
         });
 
         if (!investment) {
-            await transaction.rollback();
+            await t.rollback();
             return res.status(404).json({
                 success: false,
-                message: 'Inversión no encontrada'
+                message: 'Investment not found'
             });
         }
 
-        // Check if user has enough shares
-        if (investment.quantity < quantity) {
-            await transaction.rollback();
+        const investmentQuantity = parseInt(investment.quantity);
+        if (sellQuantity > investmentQuantity) {
+            await t.rollback();
             return res.status(400).json({
                 success: false,
-                message: `No tienes suficientes acciones. Tienes ${investment.quantity} pero intentas vender ${quantity}`
+                message: `Cannot sell ${sellQuantity} shares. You only own ${investmentQuantity} shares.`
             });
         }
 
-        // Get current stock price
-        const stockData = await financeAPI.getStockPrice(investment.symbol);
-        const currentPrice = stockData ? stockData.price : investment.purchasePrice;
+        // Get current price
+        const currentStockData = await financeAPI.getStockPrice(investment.symbol);
+        const currentPrice = currentStockData ? parseFloat(currentStockData.price.toFixed(2)) : parseFloat(investment.currentPrice);
+        
+        // Calculate sale values with proper decimal handling
+        const saleValue = parseFloat((currentPrice * sellQuantity).toFixed(2));
+        const totalInvested = parseFloat(investment.totalInvested);
+        const proportionalInvested = parseFloat(((totalInvested / investmentQuantity) * sellQuantity).toFixed(2));
+        const profitLoss = parseFloat((saleValue - proportionalInvested).toFixed(2));
+        const profitLossPercent = proportionalInvested > 0 ? parseFloat(((profitLoss / proportionalInvested) * 100).toFixed(2)) : 0;
 
-        const saleValue = currentPrice * quantity;
-        const costBasis = investment.purchasePrice * quantity;
-        const profitLoss = saleValue - costBasis;
-        const profitLossPercent = costBasis > 0 ? (profitLoss / costBasis) * 100 : 0;
+        console.log('Sell calculation debug:', {
+            investmentId: id,
+            sellQuantity,
+            investmentQuantity,
+            currentPrice,
+            saleValue,
+            totalInvested,
+            proportionalInvested,
+            profitLoss,
+            profitLossPercent
+        });
 
-        // Get user
-        const user = await User.findByPk(userId, { transaction });
+        // Update user cash balance
+        const user = await User.findByPk(userId, { transaction: t, lock: true });
+        const currentCashBalance = parseFloat(user.cashBalance || 0);
+        const newCashBalance = parseFloat((currentCashBalance + saleValue).toFixed(2));
+        
+        await user.update({
+            cashBalance: newCashBalance
+        }, { transaction: t });
 
-        if (investment.quantity === quantity) {
-            // Selling all shares - delete investment
-            await investment.destroy({ transaction });
-        } else {
-            // Partial sale - update investment
-            const remainingQuantity = investment.quantity - quantity;
-            const remainingInvested = investment.totalInvested - costBasis;
-
-            await investment.update({
-                quantity: remainingQuantity,
-                totalInvested: remainingInvested,
-                currentPrice
-            }, { transaction });
-        }
-
-        // Update user's cash balance
-        const newCashBalance = parseFloat(user.cashBalance) + saleValue;
-        await user.update({ cashBalance: newCashBalance }, { transaction });
-
-        // Record transaction
+        // Record transaction first
         await Transaction.create({
-            userId,
+            userId: userId,
             symbol: investment.symbol,
             transactionType: 'SELL',
-            quantity,
+            quantity: sellQuantity,
             price: currentPrice,
             totalAmount: saleValue,
             transactionDate: new Date()
-        }, { transaction });
+        }, { transaction: t });
 
-        await transaction.commit();
+        // Handle investment update/deletion
+        if (sellQuantity === investmentQuantity) {
+            // Sell all shares - delete investment
+            await investment.destroy({ transaction: t });
+        } else {
+            // Partial sale - update investment with recalculated values
+            const remainingQuantity = investmentQuantity - sellQuantity;
+            const remainingTotalInvested = parseFloat((totalInvested - proportionalInvested).toFixed(2));
+            
+            // Recalculate average purchase price for remaining shares
+            const newAveragePrice = remainingQuantity > 0 ? 
+                parseFloat((remainingTotalInvested / remainingQuantity).toFixed(2)) : 
+                parseFloat(investment.purchasePrice);
+
+            console.log('Investment update debug:', {
+                remainingQuantity,
+                remainingTotalInvested,
+                newAveragePrice
+            });
+
+            await investment.update({
+                quantity: remainingQuantity,
+                totalInvested: remainingTotalInvested,
+                purchasePrice: newAveragePrice,
+                currentPrice: currentPrice
+            }, { transaction: t });
+        }
+
+        await t.commit();
 
         res.json({
             success: true,
-            message: `Venta exitosa: ${quantity} acciones de ${investment.symbol} por $${saleValue.toFixed(2)}`,
+            message: `Successfully sold ${sellQuantity} shares of ${investment.symbol}`,
             data: {
                 saleDetails: {
                     symbol: investment.symbol,
-                    quantity,
+                    quantitySold: sellQuantity,
                     pricePerShare: currentPrice,
-                    saleValue,
-                    costBasis,
-                    profitLoss: parseFloat(profitLoss.toFixed(2)),
-                    profitLossPercent: parseFloat(profitLossPercent.toFixed(2))
+                    totalReceived: saleValue,
+                    profitLoss: profitLoss,
+                    profitLossPercent: profitLossPercent
                 },
-                newCashBalance,
-                remainingShares: investment.quantity === quantity ? 0 : investment.quantity - quantity
+                newCashBalance: newCashBalance,
+                remainingShares: sellQuantity === investmentQuantity ? 0 : investmentQuantity - sellQuantity
             }
         });
 
     } catch (error) {
-        await transaction.rollback();
+        await t.rollback();
         console.error('Error selling investment:', error);
+        
+        // Log additional debug info for decimal errors
+        if (error.message && error.message.includes('decimal')) {
+            console.error('Decimal error details:', {
+                params: req.params,
+                body: req.body,
+                userId: req.user.id
+            });
+        }
+        
         res.status(500).json({
             success: false,
-            message: 'Error procesando la venta'
+            message: 'Error processing sale. Please try again.'
         });
     }
 };
@@ -371,7 +411,7 @@ const deleteInvestment = async (req, res) => {
         if (!investment) {
             return res.status(404).json({
                 success: false,
-                message: 'Inversión no encontrada'
+                message: 'Investment not found'
             });
         }
 
@@ -379,14 +419,14 @@ const deleteInvestment = async (req, res) => {
 
         res.json({
             success: true,
-            message: 'Inversión eliminada exitosamente'
+            message: 'Investment deleted successfully'
         });
 
     } catch (error) {
         console.error('Error deleting investment:', error);
         res.status(500).json({
             success: false,
-            message: 'Error eliminando inversión'
+            message: 'Error deleting investment'
         });
     }
 };
@@ -400,7 +440,7 @@ const getCashBalance = async (req, res) => {
         if (!user) {
             return res.status(404).json({
                 success: false,
-                message: 'Usuario no encontrado'
+                message: 'User not found'
             });
         }
 
@@ -416,7 +456,7 @@ const getCashBalance = async (req, res) => {
         console.error('Error getting cash balance:', error);
         res.status(500).json({
             success: false,
-            message: 'Error obteniendo balance de efectivo'
+            message: 'Error retrieving cash balance'
         });
     }
 };
@@ -431,7 +471,7 @@ const addCash = async (req, res) => {
         if (!amount || amount <= 0) {
             return res.status(400).json({
                 success: false,
-                message: 'Cantidad válida es requerida'
+                message: 'Valid amount is required'
             });
         }
 
@@ -439,7 +479,7 @@ const addCash = async (req, res) => {
         if (!user) {
             return res.status(404).json({
                 success: false,
-                message: 'Usuario no encontrado'
+                message: 'User not found'
             });
         }
 
@@ -449,7 +489,7 @@ const addCash = async (req, res) => {
 
         res.json({
             success: true,
-            message: `$${parseFloat(amount).toFixed(2)} agregados a tu cuenta exitosamente`,
+            message: `$${parseFloat(amount).toFixed(2)} successfully added to your account`,
             data: {
                 newBalance: parseFloat(newBalance.toFixed(2)),
                 addedAmount: parseFloat(amount)
@@ -460,7 +500,7 @@ const addCash = async (req, res) => {
         console.error('Error adding cash:', error);
         res.status(500).json({
             success: false,
-            message: 'Error agregando dinero a la cuenta'
+            message: 'Error adding funds to account'
         });
     }
 };
@@ -500,7 +540,165 @@ const getTransactionHistory = async (req, res) => {
         console.error('Error getting transaction history:', error);
         res.status(500).json({
             success: false,
-            message: 'Error obteniendo historial de transacciones'
+            message: 'Error retrieving transaction history'
+        });
+    }
+};
+
+const buyInvestment = async (req, res) => {
+    const t = await sequelize.transaction();
+    
+    try {
+        const { symbol, quantity } = req.body;
+        const userId = req.user.id;
+
+        // Convert to numbers immediately and validate
+        const purchaseQuantity = parseInt(quantity);
+        if (isNaN(purchaseQuantity) || purchaseQuantity <= 0) {
+            await t.rollback();
+            return res.status(400).json({
+                success: false,
+                message: 'Valid numeric quantity is required'
+            });
+        }
+
+        // Get current stock price
+        const stockData = await financeAPI.getStockPrice(symbol);
+        if (!stockData) {
+            await t.rollback();
+            return res.status(400).json({
+                success: false,
+                message: 'Could not get stock price. Please try again.'
+            });
+        }
+
+        // Ensure price is a number and calculate total cost
+        const stockPrice = parseFloat(stockData.price);
+        if (isNaN(stockPrice) || stockPrice <= 0) {
+            await t.rollback();
+            return res.status(400).json({
+                success: false,
+                message: 'Invalid stock price received'
+            });
+        }
+
+        const totalCost = parseFloat((stockPrice * purchaseQuantity).toFixed(2));
+
+        // Check if user has enough cash with lock
+        const user = await User.findByPk(userId, { transaction: t, lock: true });
+        const userCashBalance = parseFloat(user.cashBalance || 0);
+        
+        if (userCashBalance < totalCost) {
+            await t.rollback();
+            return res.status(400).json({
+                success: false,
+                message: 'Insufficient funds to complete this purchase',
+                currentBalance: userCashBalance
+            });
+        }
+
+        // Check if user already has this investment with lock
+        let investment = await Investment.findOne({
+            where: { userId: userId, symbol: symbol },
+            transaction: t,
+            lock: true
+        });
+
+        if (investment) {
+            // Update existing investment - Convert all values to numbers first
+            const existingTotalInvested = parseFloat(investment.totalInvested || 0);
+            const existingQuantity = parseInt(investment.quantity || 0);
+            
+            // Calculate new values
+            const newTotalInvested = parseFloat((existingTotalInvested + totalCost).toFixed(2));
+            const newQuantity = existingQuantity + purchaseQuantity;
+            const newAveragePrice = parseFloat((newTotalInvested / newQuantity).toFixed(2));
+
+            console.log('Investment update calculation:', {
+                existingTotalInvested,
+                existingQuantity,
+                totalCost,
+                purchaseQuantity,
+                newTotalInvested,
+                newQuantity,
+                newAveragePrice
+            });
+
+            await investment.update({
+                quantity: newQuantity,
+                purchasePrice: newAveragePrice,
+                totalInvested: newTotalInvested,
+                currentPrice: parseFloat(stockPrice.toFixed(2))
+            }, { transaction: t });
+        } else {
+            // Create new investment
+            investment = await Investment.create({
+                userId: userId,
+                symbol: symbol,
+                companyName: stockData.shortName || `${symbol} Inc.`,
+                quantity: purchaseQuantity,
+                purchasePrice: parseFloat(stockPrice.toFixed(2)),
+                currentPrice: parseFloat(stockPrice.toFixed(2)),
+                totalInvested: totalCost,
+                purchaseDate: new Date()
+            }, { transaction: t });
+        }
+
+        // Update user cash balance
+        const newCashBalance = parseFloat((userCashBalance - totalCost).toFixed(2));
+        await user.update({
+            cashBalance: newCashBalance
+        }, { transaction: t });
+
+        // Record transaction
+        await Transaction.create({
+            userId: userId,
+            symbol: symbol,
+            transactionType: 'BUY',
+            quantity: purchaseQuantity,
+            price: parseFloat(stockPrice.toFixed(2)),
+            totalAmount: totalCost,
+            transactionDate: new Date()
+        }, { transaction: t });
+
+        await t.commit();
+
+        res.json({
+            success: true,
+            message: `Successfully purchased ${purchaseQuantity} shares of ${symbol}`,
+            data: {
+                investment: {
+                    id: investment.id,
+                    symbol: symbol,
+                    quantity: investment.quantity,
+                    purchasePrice: investment.purchasePrice,
+                    totalInvested: investment.totalInvested
+                },
+                remainingCash: newCashBalance,
+                transactionDetails: {
+                    symbol: symbol,
+                    quantity: purchaseQuantity,
+                    pricePerShare: stockPrice,
+                    totalCost: totalCost
+                }
+            }
+        });
+
+    } catch (error) {
+        await t.rollback();
+        console.error('Error buying investment:', error);
+        
+        // Log additional debug info for decimal errors
+        if (error.message && error.message.includes('decimal')) {
+            console.error('Decimal error details:', {
+                body: req.body,
+                userId: req.user.id
+            });
+        }
+        
+        res.status(500).json({
+            success: false,
+            message: 'Error processing purchase. Please try again.'
         });
     }
 };
@@ -513,5 +711,6 @@ module.exports = {
     deleteInvestment,
     getCashBalance,
     addCash,
-    getTransactionHistory
+    getTransactionHistory,
+    buyInvestment
 };

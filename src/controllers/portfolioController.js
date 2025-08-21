@@ -12,7 +12,7 @@ const getPortfolioDetails = async (req, res) => {
         if (!user) {
             return res.status(404).json({
                 success: false,
-                message: 'Usuario no encontrado'
+                message: 'User not found'
             });
         }
 
@@ -125,7 +125,7 @@ const getPortfolioDetails = async (req, res) => {
         console.error('Error getting portfolio details:', error);
         res.status(500).json({
             success: false,
-            message: 'Error obteniendo detalles del portfolio',
+            message: 'Error retrieving portfolio details',
             error: process.env.NODE_ENV === 'development' ? error.message : undefined
         });
     }
@@ -174,7 +174,7 @@ const getNetInvestment = async (req, res) => {
         console.error('Error getting net investment:', error);
         res.status(500).json({
             success: false,
-            message: 'Error obteniendo inversión neta'
+            message: 'Error retrieving net investment data'
         });
     }
 };
@@ -226,7 +226,7 @@ const getCashFlow = async (req, res) => {
         console.error('Error getting cash flow:', error);
         res.status(500).json({
             success: false,
-            message: 'Error obteniendo flujo de efectivo'
+            message: 'Error retrieving cash flow data'
         });
     }
 };

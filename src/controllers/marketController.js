@@ -14,7 +14,7 @@ const getMarketData = async (req, res) => {
         console.error('Error fetching market data:', error);
         res.status(500).json({
             success: false,
-            message: 'Error obteniendo datos del mercado'
+            message: 'Error fetching market data'
         });
     }
 };
@@ -27,7 +27,7 @@ const getStockPrice = async (req, res) => {
         if (!symbol) {
             return res.status(400).json({
                 success: false,
-                message: 'Símbolo de acción requerido'
+                message: 'Action Symbol required'
             });
         }
 
@@ -41,14 +41,14 @@ const getStockPrice = async (req, res) => {
         } else {
             res.status(404).json({
                 success: false,
-                message: `No se encontraron datos para el símbolo ${symbol}`
+                message: `No data found for the symbol. ${symbol}`
             });
         }
     } catch (error) {
         console.error(`Error fetching stock price for ${req.params.symbol}:`, error);
         res.status(500).json({
             success: false,
-            message: 'Error obteniendo precio de la acción'
+            message: 'Error fetching stock price'
         });
     }
 };
@@ -63,7 +63,7 @@ const searchStocks = async (req, res) => {
             return res.json({
                 success: true,
                 data: [],
-                message: 'Query vacío'
+                message: 'Empty Query'
             });
         }
 
@@ -82,7 +82,7 @@ const searchStocks = async (req, res) => {
         console.error('Error searching stocks:', error);
         res.status(500).json({
             success: false,
-            message: 'Error buscando acciones'
+            message: 'Error searching stocks'
         });
     }
 };
@@ -96,7 +96,7 @@ const getHistoricalData = async (req, res) => {
         if (!symbol) {
             return res.status(400).json({
                 success: false,
-                message: 'Símbolo de acción requerido'
+                message: 'Action Symbol required'
             });
         }
 
@@ -114,7 +114,7 @@ const getHistoricalData = async (req, res) => {
         console.error(`Error fetching historical data for ${req.params.symbol}:`, error);
         res.status(500).json({
             success: false,
-            message: 'Error obteniendo datos históricos'
+            message: 'Error fetching historical data'
         });
     }
 };
@@ -165,7 +165,7 @@ const getMarketMoves = async (req, res) => {
         console.error('Error fetching market moves:', error);
         res.status(500).json({
             success: false,
-            message: 'Error obteniendo movimientos del mercado'
+            message: 'Error fetching market moves'
         });
     }
 };
