@@ -660,7 +660,6 @@
                     <div class="cash-balance" id="cashBalance">$0.00</div>
                 </div>
                 <button class="btn btn-success" onclick="showAddCashModal()"> Add Money</button>
-                <button class="btn btn-danger logout-btn" onclick="logout()" title="Sign Out"><i class="fa-solid fa-right-from-bracket"></i> Exit</button>
             </div>
         </div>
 
@@ -1161,6 +1160,175 @@
             }
         }
 
+        // Add Cash Modal Functions
+        function showAddCashModal() {
+            const modal = document.getElementById('addCashModal');
+            if (modal) {
+                modal.style.display = 'block';
+                // Clear any previous values
+                const cashAmountInput = document.getElementById('cashAmount');
+                if (cashAmountInput) {
+                    cashAmountInput.value = '';
+                    cashAmountInput.focus();
+                }
+            } else {
+                console.error('Add Cash Modal not found');
+            }
+        }
+
+        function closeAddCashModal() {
+            const modal = document.getElementById('addCashModal');
+            const cashAmountInput = document.getElementById('cashAmount');
+            
+            if (modal) {
+                modal.style.display = 'none';
+            }
+            
+            if (cashAmountInput) {
+                cashAmountInput.value = '';
+            }
+            
+            // Clear any modal messages
+            const modalMessage = document.getElementById('modalMessage');
+            if (modalMessage) {
+                modalMessage.innerHTML = '';
+            }
+        }
+
+        async function addCash() {
+            const cashAmountInput = document.getElementById('cashAmount');
+            if (!cashAmountInput) {
+                console.error('Cash amount input not found');
+                showMessage('Error: Cash amount input not found', 'error');
+                return;
+            }
+            
+            const amount = parseFloat(cashAmountInput.value);
+            
+            if (!amount || amount <= 0 || isNaN(amount)) {
+                showMessage('Please enter a valid amount', 'error');
+                return;
+            }
+            
+            const addButton = event.target;
+            const originalText = addButton.textContent;
+            
+            // Disable button and show loading
+            addButton.disabled = true;
+            addButton.textContent = 'Adding...';
+            
+            try {
+                const response = await fetch('/api/investments/cash/add', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'x-user-id': userId
+                    },
+                    body: JSON.stringify({ amount })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    // Show success popup with details
+                    const addCashDetails = {
+                        'Amount Added': `$${amount.toFixed(2)}`,
+                        'Previous Balance': `$${(parseFloat(result.data.newBalance) - amount).toLocaleString()}`,
+                        'New Balance': `$${parseFloat(result.data.newBalance).toLocaleString()}`
+                    };
+
+                    showMessagePopup(
+                        'success',
+                        'Money Added Successfully!',
+                        `$${amount.toFixed(2)} has been added to your account.`,
+                        addCashDetails
+                    );
+                    
+                    // Update balance in the page immediately
+                    const cashBalanceElement = document.getElementById('cashBalance');
+                    if (cashBalanceElement) {
+                        cashBalanceElement.textContent = `$${parseFloat(result.data.newBalance).toLocaleString()}`;
+                    }
+                    
+                    // Update header balance if available
+                    if (window.headerLoader && window.headerLoader.updateCashBalance) {
+                        window.headerLoader.updateCashBalance(result.data.newBalance);
+                    }
+
+                    // Close modal after success
+                    closeAddCashModal();
+                    
+                    // Reload investments to show updated data
+                    setTimeout(() => {
+                        loadInvestments();
+                    }, 1000);
+                    
+                } else {
+                    showMessage(result.message, 'error');
+                }
+            } catch (error) {
+                console.error('Error adding cash:', error);
+                showMessage('Connection error. Please try again.', 'error');
+            } finally {
+                // Re-enable button
+                addButton.disabled = false;
+                addButton.textContent = originalText;
+            }
+        }
+
+        // Close modal when clicking outside
+        document.addEventListener('click', function(e) {
+            const addCashModal = document.getElementById('addCashModal');
+            const confirmationModal = document.getElementById('confirmationModal');
+            const messageModal = document.getElementById('messageModal');
+            
+            // Close add cash modal
+            if (e.target === addCashModal && addCashModal.style.display === 'block') {
+                closeAddCashModal();
+            }
+            
+            // Close confirmation modal
+            if (e.target === confirmationModal && confirmationModal.style.display === 'block') {
+                closeConfirmationModal();
+            }
+
+            // Close message modal
+            const modalBackdrop = e.target.closest('.modal-backdrop');
+            if (modalBackdrop && messageModal.style.display === 'flex') {
+                closeMessageModal();
+            }
+        });
+
+        // Close modals with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                const addCashModal = document.getElementById('addCashModal');
+                const confirmationModal = document.getElementById('confirmationModal');
+                const messageModal = document.getElementById('messageModal');
+                
+                if (addCashModal.style.display === 'block') {
+                    closeAddCashModal();
+                } else if (confirmationModal.style.display === 'block') {
+                    closeConfirmationModal();
+                } else if (messageModal.style.display === 'flex') {
+                    closeMessageModal();
+                }
+            }
+        });
+
+        // Allow Enter key to submit in add cash modal
+        document.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                const addCashModal = document.getElementById('addCashModal');
+                if (addCashModal && addCashModal.style.display === 'block') {
+                    const cashAmountInput = document.getElementById('cashAmount');
+                    if (document.activeElement === cashAmountInput) {
+                        addCash();
+                    }
+                }
+            }
+        });
+
         // Initialize with DOM ready check
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', loadInvestments);
@@ -1190,3 +1358,4 @@
 </body>
 
 </html>
+``` 
