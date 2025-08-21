@@ -26,15 +26,35 @@ const Investment = sequelize.define('Investment', {
     quantity: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        defaultValue: 0
+        defaultValue: 0,
+        get() {
+            return parseInt(this.getDataValue('quantity')) || 0;
+        },
+        set(value) {
+            this.setDataValue('quantity', parseInt(value) || 0);
+        }
     },
     purchasePrice: {
         type: DataTypes.DECIMAL(10, 2),
-        allowNull: false
+        allowNull: false,
+        get() {
+            const value = this.getDataValue('purchasePrice');
+            return value ? parseFloat(value) : 0;
+        },
+        set(value) {
+            this.setDataValue('purchasePrice', parseFloat(value) || 0);
+        }
     },
     currentPrice: {
         type: DataTypes.DECIMAL(10, 2),
-        allowNull: true
+        allowNull: true,
+        get() {
+            const value = this.getDataValue('currentPrice');
+            return value ? parseFloat(value) : 0;
+        },
+        set(value) {
+            this.setDataValue('currentPrice', parseFloat(value) || 0);
+        }
     },
     purchaseDate: {
         type: DataTypes.DATE,
@@ -43,11 +63,24 @@ const Investment = sequelize.define('Investment', {
     },
     totalInvested: {
         type: DataTypes.DECIMAL(12, 2),
-        allowNull: false
+        allowNull: false,
+        get() {
+            const value = this.getDataValue('totalInvested');
+            return value ? parseFloat(value) : 0;
+        },
+        set(value) {
+            this.setDataValue('totalInvested', parseFloat(value) || 0);
+        }
     }
 }, {
     tableName: 'investments',
-    timestamps: true
+    timestamps: true,
+    indexes: [
+        {
+            unique: true,
+            fields: ['userId', 'symbol']
+        }
+    ]
 });
 
 module.exports = Investment;

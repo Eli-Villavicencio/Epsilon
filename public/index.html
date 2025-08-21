@@ -1,10 +1,14 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio Management - Inicio</title>
+    <link rel = "stylesheet" href ="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Portfolio Management - Home</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Teachers:ital,wght@0,400..800;1,400..800&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&family=Teachers:ital,wght@0,400..800;1,400..800&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Didact+Gothic&family=Lexend:wght@100..900&family=Teachers:ital,wght@0,400..800&display=swap');
         body { 
             font-family: Arial, sans-serif; 
             margin: 0; 
@@ -53,6 +57,7 @@
             font-size: 18px;
             margin-bottom: 40px;
             line-height: 1.6;
+            font-family:"Didact Gothic", sans-serif;
         }
         .auth-buttons {
             display: flex;
@@ -80,10 +85,16 @@
         .btn-primary {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
+            font-family:"Teachers", sans-serif;
+            font-size:18px;
+            border-radius:14px;
         }
         .btn-secondary {
-            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            background: linear-gradient(135deg, #5cd378 0%, #20c961 100%);
             color: white;
+            font-family:"Teachers", sans-serif;
+            font-size:18px;
+            border-radius:14px;
         }
         .features {
             margin-top: 40px;
@@ -122,10 +133,12 @@
             justify-content: center;
             font-size: 18px;
             flex-shrink: 0;
+            color:white;
         }
         .feature-text {
             color: #293b36;
             font-weight: 500;
+            font-family:"Didact Gothic", sans-serif;
         }
         .demo-note {
             background: linear-gradient(135deg, #ffeaa7 0%, #fab1a0 100%);
@@ -158,62 +171,57 @@
     <div class="landing-container">
         <div class="logo-section">
             <img src="./media/logo2.png" alt="Portfolio Management Logo" class="logo-img">
-            <h1>Portfolio Management</h1>
+            
             <div class="tagline">Five minds, one winning portfolio.</div>
         </div>
         
         <div class="subtitle">
-            Plataforma completa para gestionar tu portafolio de inversiones de manera inteligente. 
-            Compra, vende y analiza el rendimiento de tus acciones con herramientas profesionales.
+            Complete platform to manage your investment portfolio intelligently. 
+            Buy, sell and analyze the performance of your stocks with professional tools.
         </div>
         
         <div class="auth-buttons">
-            <a href="/register.html" class="btn btn-primary">🚀 Comenzar Ahora</a>
-            <a href="/login.html" class="btn btn-secondary">🔑 Iniciar Sesión</a>
+            <a href="/register.html" class="btn btn-primary"> Get Started</a>
+            <a href="/login.html" class="btn btn-secondary">Sign In</a>
         </div>
         
         <div class="features">
-            <h3>✨ Características Principales</h3>
+            <h3> Key Features</h3>
             <div class="features-grid">
                 <div class="feature">
-                    <div class="feature-icon">💰</div>
-                    <div class="feature-text">Compra y venta de acciones simulada en tiempo real</div>
+                    <div class="feature-icon"><i class="fa-solid fa-sack-dollar"></i></div>
+                    <div class="feature-text">Real-time simulated stock buying and selling</div>
                 </div>
                 <div class="feature">
-                    <div class="feature-icon">📊</div>
-                    <div class="feature-text">Dashboard interactivo con gráficos avanzados</div>
+                    <div class="feature-icon"><i class="fa-solid fa-chart-simple"></i></div>
+                    <div class="feature-text">Interactive dashboard with advanced charts</div>
                 </div>
                 <div class="feature">
-                    <div class="feature-icon">📈</div>
-                    <div class="feature-text">Análisis de rendimiento y ganancias/pérdidas</div>
+                    <div class="feature-icon"><i class="fa-solid fa-magnifying-glass-chart"></i></div>
+                    <div class="feature-text">Performance analysis and profit/loss tracking</div>
                 </div>
                 <div class="feature">
-                    <div class="feature-icon">🏪</div>
-                    <div class="feature-text">Datos de mercado financiero actualizados</div>
+                    <div class="feature-icon"><i class="fa-solid fa-shop"></i></div>
+                    <div class="feature-text">Updated financial market data</div>
                 </div>
                 <div class="feature">
-                    <div class="feature-icon">💳</div>
-                    <div class="feature-text">Gestión de balance de efectivo</div>
+                    <div class="feature-icon"><i class="fa-solid fa-credit-card"></i></div>
+                    <div class="feature-text">Cash balance management</div>
                 </div>
                 <div class="feature">
-                    <div class="feature-icon">🔒</div>
-                    <div class="feature-text">Sistema seguro con autenticación JWT</div>
+                    <div class="feature-icon"><i class="fa-solid fa-shield-halved"></i></div>
+                    <div class="feature-text">Secure system with JWT authentication</div>
                 </div>
             </div>
         </div>
 
-        <div class="demo-note">
-            <strong>💡 Aplicación de Demostración</strong><br>
-            Esta es una simulación educativa. Los datos de mercado son una combinación de información real 
-            y datos simulados para fines de aprendizaje. No se realizan transacciones financieras reales.
-        </div>
     </div>
 
     <script>
-        // Redirigir si ya está logueado
+        // Redirect if already logged in
         const userId = localStorage.getItem('userId');
         if (userId) {
-            // Verificar que el token sea válido antes de redirigir
+            // Verify that the token is valid before redirecting
             const authToken = localStorage.getItem('authToken');
             if (authToken) {
                 fetch('/api/auth/verify', {
@@ -225,18 +233,18 @@
                     if (response.ok) {
                         window.location.href = '/dashboard.html';
                     } else {
-                        // Token inválido, limpiar localStorage
+                        // Invalid token, clear localStorage
                         localStorage.removeItem('userId');
                         localStorage.removeItem('user');
                         localStorage.removeItem('authToken');
                     }
                 }).catch(error => {
-                    console.error('Error verificando autenticación:', error);
+                    console.error('Error verifying authentication:', error);
                 });
             }
         }
 
-        // Animaciones suaves al cargar
+        // Smooth animations on load
         document.addEventListener('DOMContentLoaded', function() {
             const container = document.querySelector('.landing-container');
             container.style.opacity = '0';

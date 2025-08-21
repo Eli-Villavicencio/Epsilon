@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detalles de Acción - Portfolio Management</title>
+    <title>Stock Details - Portfolio Management</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script
         src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
@@ -264,80 +264,58 @@
             <div class="stock-header">
                 <div class="stock-info">
                     <div class="stock-symbol" id="stockSymbol">-</div>
-                    <div class="company-name" id="companyName">Cargando...</div>
-                    <div id="marketStatus" class="market-status market-open">Mercado Abierto</div>
+                    <div class="company-name" id="companyName">Loading...</div>
+                    <div id="marketStatus" class="market-status market-open">Market Open</div>
                 </div>
                 <div style="text-align: right;">
                     <div class="current-price" id="currentPrice">$0.00</div>
                     <div class="price-change" id="priceChange">+$0.00 (+0.00%)</div>
-                    <div class="data-source" id="dataSource">Fuente: simulado</div>
                 </div>
                 <div class="action-buttons">
-                    <button class="btn btn-success" onclick="buyThisStock()">💰 Comprar</button>
-                    <button class="btn btn-secondary" onclick="goBack()">← Volver</button>
+                    <button class="btn btn-success" onclick="buyThisStock()">Buy</button>
+                    <button class="btn btn-secondary" onclick="goBack()">← Back</button>
                 </div>
             </div>
         </div>
 
-        <div class="stats-grid">
-            <div class="stat-card">
-                <h3>📊 Información del Precio</h3>
-                <div id="priceStats">
-                    <div class="loading">Cargando estadísticas...</div>
-                </div>
-            </div>
-
-            <div class="stat-card">
-                <h3>📈 Rendimiento</h3>
-                <div id="performanceStats">
-                    <div class="loading">Calculando rendimiento...</div>
-                </div>
-            </div>
-
-            <div class="stat-card">
-                <h3>💼 Información Corporativa</h3>
-                <div id="corporateInfo">
-                    <div class="loading">Obteniendo información...</div>
-                </div>
-            </div>
-        </div>
+        
 
         <div class="chart-section">
-            <h3>📈 Gráfico de Precio Histórico</h3>
+            <h3> Historical Price Chart</h3>
             <div class="chart-controls">
                 <div class="chart-group">
-                    <label>Período de Tiempo</label>
+                    <label>Time Period</label>
                     <select id="timePeriod" onchange="updateChart()">
-                        <option value="1d">1 Día</option>
-                        <option value="5d">5 Días</option>
-                        <option value="1mo" selected>1 Mes</option>
-                        <option value="3mo">3 Meses</option>
-                        <option value="6mo">6 Meses</option>
-                        <option value="1y">1 Año</option>
-                        <option value="2y">2 Años</option>
-                        <option value="5y">5 Años</option>
+                        <option value="1d">1 Day</option>
+                        <option value="5d">5 Days</option>
+                        <option value="1mo" selected>1 Month</option>
+                        <option value="3mo">3 Months</option>
+                        <option value="6mo">6 Months</option>
+                        <option value="1y">1 Year</option>
+                        <option value="2y">2 Years</option>
+                        <option value="5y">5 Years</option>
                     </select>
                 </div>
                 <div class="chart-group">
-                    <label>Intervalo de Datos</label>
+                    <label>Data Interval</label>
                     <select id="dataInterval" onchange="updateChart()">
-                        <option value="1m">1 Minuto</option>
-                        <option value="5m">5 Minutos</option>
-                        <option value="15m">15 Minutos</option>
-                        <option value="1h">1 Hora</option>
-                        <option value="1d" selected>1 Día</option>
-                        <option value="1wk">1 Semana</option>
-                        <option value="1mo">1 Mes</option>
+                        <option value="1m">1 Minute</option>
+                        <option value="5m">5 Minutes</option>
+                        <option value="15m">15 Minutes</option>
+                        <option value="1h">1 Hour</option>
+                        <option value="1d" selected>1 Day</option>
+                        <option value="1wk">1 Week</option>
+                        <option value="1mo">1 Month</option>
                     </select>
                 </div>
                 <div class="chart-group">
-                    <label>Vista Rápida</label>
+                    <label>Quick View</label>
                     <div class="quick-range-buttons">
-                        <button class="quick-range-btn" onclick="setQuickRange('1d', '1m')">Hoy</button>
+                        <button class="quick-range-btn" onclick="setQuickRange('1d', '1m')">Today</button>
                         <button class="quick-range-btn" onclick="setQuickRange('5d', '15m')">5D</button>
                         <button class="quick-range-btn active" onclick="setQuickRange('1mo', '1d')">1M</button>
                         <button class="quick-range-btn" onclick="setQuickRange('3mo', '1d')">3M</button>
-                        <button class="quick-range-btn" onclick="setQuickRange('1y', '1wk')">1A</button>
+                        <button class="quick-range-btn" onclick="setQuickRange('1y', '1wk')">1Y</button>
                     </div>
                 </div>
             </div>
@@ -366,7 +344,7 @@
             stockSymbol = getStockSymbolFromURL();
 
             if (!stockSymbol) {
-                showError('No se especificó ninguna acción');
+                showError('No stock symbol specified');
                 return;
             }
 
@@ -387,7 +365,7 @@
                 await updateChart();
             } catch (error) {
                 console.error('Error loading stock data:', error);
-                showError('Error cargando datos de la acción');
+                showError('Error loading stock data');
             }
         }
 
@@ -401,11 +379,11 @@
                     stockData = result.data;
                     displayStockPrice(stockData);
                 } else {
-                    throw new Error('No se pudo obtener el precio');
+                    throw new Error('Could not get stock price');
                 }
             } catch (error) {
                 console.error('Error loading stock price:', error);
-                showError('Error obteniendo precio de la acción');
+                showError('Error getting stock price');
             }
         }
 
@@ -421,7 +399,7 @@
                 `${changeSign}$${data.change.toFixed(2)} (${changeSign}${data.changePercent.toFixed(2)}%)`;
 
             if (data.dataSource) {
-                document.getElementById('dataSource').textContent = `Fuente: ${data.dataSource}`;
+                document.getElementById('dataSource').textContent = `Source: ${data.dataSource}`;
             }
         }
 
@@ -443,41 +421,41 @@
 
             const priceStatsHTML = `
                 <div class="stat-item">
-                    <span class="stat-label">Precio Actual</span>
+                    <span class="stat-label">Current Price</span>
                     <span class="stat-value">$${stockData.price.toFixed(2)}</span>
                 </div>
                 <div class="stat-item">
-                    <span class="stat-label">Cambio Diario</span>
+                    <span class="stat-label">Daily Change</span>
                     <span class="stat-value ${stockData.change >= 0 ? 'change-positive' : 'change-negative'}">
                         ${stockData.change >= 0 ? '+' : ''}$${stockData.change.toFixed(2)}
                     </span>
                 </div>
                 <div class="stat-item">
-                    <span class="stat-label">% Cambio</span>
+                    <span class="stat-label">% Change</span>
                     <span class="stat-value ${stockData.changePercent >= 0 ? 'change-positive' : 'change-negative'}">
                         ${stockData.changePercent >= 0 ? '+' : ''}${stockData.changePercent.toFixed(2)}%
                     </span>
                 </div>
                 ${stockData.dayHigh ? `
                 <div class="stat-item">
-                    <span class="stat-label">Máximo del Día</span>
+                    <span class="stat-label">Day High</span>
                     <span class="stat-value">$${stockData.dayHigh.toFixed(2)}</span>
                 </div>
                 ` : ''}
                 ${stockData.dayLow ? `
                 <div class="stat-item">
-                    <span class="stat-label">Mínimo del Día</span>
+                    <span class="stat-label">Day Low</span>
                     <span class="stat-value">$${stockData.dayLow.toFixed(2)}</span>
                 </div>
                 ` : ''}
                 ${stockData.previousClose ? `
                 <div class="stat-item">
-                    <span class="stat-label">Cierre Anterior</span>
+                    <span class="stat-label">Previous Close</span>
                     <span class="stat-value">$${stockData.previousClose.toFixed(2)}</span>
                 </div>
                 ` : ''}
                 <div class="stat-item">
-                    <span class="stat-label">Volumen</span>
+                    <span class="stat-label">Volume</span>
                     <span class="stat-value">${stockData.volume ? stockData.volume.toLocaleString() : 'N/A'}</span>
                 </div>
             `;
@@ -492,28 +470,28 @@
             const performanceStatsHTML = `
                 ${stockData.fiftyTwoWeekHigh ? `
                 <div class="stat-item">
-                    <span class="stat-label">Máximo 52 Semanas</span>
+                    <span class="stat-label">52 Week High</span>
                     <span class="stat-value">$${stockData.fiftyTwoWeekHigh.toFixed(2)}</span>
                 </div>
                 ` : ''}
                 ${stockData.fiftyTwoWeekLow ? `
                 <div class="stat-item">
-                    <span class="stat-label">Mínimo 52 Semanas</span>
+                    <span class="stat-label">52 Week Low</span>
                     <span class="stat-value">$${stockData.fiftyTwoWeekLow.toFixed(2)}</span>
                 </div>
                 ` : ''}
                 <div class="stat-item">
-                    <span class="stat-label">Volatilidad Estimada</span>
+                    <span class="stat-label">Estimated Volatility</span>
                     <span class="stat-value">${calculateVolatility()}%</span>
                 </div>
                 <div class="stat-item">
-                    <span class="stat-label">Tendencia</span>
+                    <span class="stat-label">Trend</span>
                     <span class="stat-value ${stockData.changePercent >= 0 ? 'change-positive' : 'change-negative'}">
                         ${getTrendIndicator()}
                     </span>
                 </div>
                 <div class="stat-item">
-                    <span class="stat-label">Última Actualización</span>
+                    <span class="stat-label">Last Update</span>
                     <span class="stat-value">${new Date().toLocaleTimeString()}</span>
                 </div>
             `;
@@ -527,26 +505,26 @@
 
             const corporateInfoHTML = `
                 <div class="stat-item">
-                    <span class="stat-label">Símbolo</span>
+                    <span class="stat-label">Symbol</span>
                     <span class="stat-value">${stockData.symbol}</span>
                 </div>
                 <div class="stat-item">
-                    <span class="stat-label">Nombre</span>
+                    <span class="stat-label">Name</span>
                     <span class="stat-value">${stockData.shortName || 'N/A'}</span>
                 </div>
                 <div class="stat-item">
-                    <span class="stat-label">Moneda</span>
+                    <span class="stat-label">Currency</span>
                     <span class="stat-value">${stockData.currency || 'USD'}</span>
                 </div>
                 ${stockData.exchangeName ? `
                 <div class="stat-item">
-                    <span class="stat-label">Bolsa</span>
+                    <span class="stat-label">Exchange</span>
                     <span class="stat-value">${stockData.exchangeName}</span>
                 </div>
                 ` : ''}
                 ${stockData.marketCap ? `
                 <div class="stat-item">
-                    <span class="stat-label">Cap. de Mercado</span>
+                    <span class="stat-label">Market Cap</span>
                     <span class="stat-value">$${formatMarketCap(stockData.marketCap)}</span>
                 </div>
                 ` : ''}
@@ -626,7 +604,7 @@
                 type: 'line',
                 data: {
                     datasets: [{
-                        label: `${stockSymbol} - Precio`,
+                        label: `${stockSymbol} - Price`,
                         data: chartData,
                         borderColor: stockData && stockData.changePercent >= 0 ? '#28a745' : '#dc3545',
                         backgroundColor: stockData && stockData.changePercent >= 0 ? 'rgba(40, 167, 69, 0.1)' : 'rgba(220, 53, 69, 0.1)',
@@ -644,7 +622,7 @@
                     plugins: {
                         title: {
                             display: true,
-                            text: `${stockSymbol} - Período: ${period.toUpperCase()} | Intervalo: ${interval.toUpperCase()}${isSimulated ? ' (Simulado)' : ''}`,
+                            text: `${stockSymbol} - Period: ${period.toUpperCase()} | Interval: ${interval.toUpperCase()}${isSimulated ? ' (Simulated)' : ''}`,
                             font: { size: 16, weight: 'bold' }
                         },
                         legend: { display: false },
@@ -654,7 +632,7 @@
                             bodyColor: 'white',
                             callbacks: {
                                 label: function (context) {
-                                    return `Precio: $${context.parsed.y.toFixed(2)}`;
+                                    return `Price: $${context.parsed.y.toFixed(2)}`;
                                 },
                                 title: function (context) {
                                     const date = new Date(context[0].parsed.x);
@@ -683,7 +661,7 @@
                         y: {
                             title: {
                                 display: true,
-                                text: 'Precio ($)',
+                                text: 'Price ($)',
                                 font: { weight: 'bold' }
                             },
                             grid: { color: 'rgba(0,0,0,0.1)' },
@@ -785,11 +763,11 @@
 
         function getTrendIndicator() {
             if (!stockData) return 'Neutral';
-            if (stockData.changePercent > 2) return '📈 Fuertemente Alcista';
-            if (stockData.changePercent > 0) return '📈 Alcista';
-            if (stockData.changePercent < -2) return '📉 Fuertemente Bajista';
-            if (stockData.changePercent < 0) return '📉 Bajista';
-            return '➡️ Neutral';
+            if (stockData.changePercent > 2) return ' Strongly Bullish';
+            if (stockData.changePercent > 0) return ' Bullish';
+            if (stockData.changePercent < -2) return ' Strongly Bearish';
+            if (stockData.changePercent < 0) return ' Bearish';
+            return ' Neutral';
         }
 
         function formatMarketCap(marketCap) {
@@ -801,23 +779,23 @@
 
         function getSectorFromSymbol(symbol) {
             const sectors = {
-                'AAPL': 'Tecnología', 'GOOGL': 'Tecnología', 'MSFT': 'Tecnología', 'AMZN': 'Tecnología',
-                'TSLA': 'Automotriz', 'META': 'Tecnología', 'NVDA': 'Semiconductores',
-                'JPM': 'Bancario', 'BAC': 'Bancario', 'V': 'Servicios Financieros', 'MA': 'Servicios Financieros',
-                'JNJ': 'Salud', 'PFE': 'Farmacéutico', 'KO': 'Bebidas', 'PEP': 'Bebidas',
-                'XOM': 'Energía', 'CVX': 'Energía', 'WMT': 'Retail', 'HD': 'Retail'
+                'AAPL': 'Technology', 'GOOGL': 'Technology', 'MSFT': 'Technology', 'AMZN': 'Technology',
+                'TSLA': 'Automotive', 'META': 'Technology', 'NVDA': 'Semiconductors',
+                'JPM': 'Banking', 'BAC': 'Banking', 'V': 'Financial Services', 'MA': 'Financial Services',
+                'JNJ': 'Healthcare', 'PFE': 'Pharmaceutical', 'KO': 'Beverages', 'PEP': 'Beverages',
+                'XOM': 'Energy', 'CVX': 'Energy', 'WMT': 'Retail', 'HD': 'Retail'
             };
-            return sectors[symbol] || 'Diversificado';
+            return sectors[symbol] || 'Diversified';
         }
 
         function getMarketStatusText(status) {
             const statusTexts = {
-                'OPEN': 'Mercado Abierto',
-                'CLOSED': 'Mercado Cerrado',
-                'PRE_MARKET': 'Pre-Mercado',
-                'AFTER_HOURS': 'Post-Mercado'
+                'OPEN': 'Market Open',
+                'CLOSED': 'Market Closed',
+                'PRE_MARKET': 'Pre-Market',
+                'AFTER_HOURS': 'After Hours'
             };
-            return statusTexts[status] || 'Estado Desconocido';
+            return statusTexts[status] || 'Unknown Status';
         }
 
         function showMessage(text, type) {

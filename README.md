@@ -21,6 +21,7 @@ npm run dev
 
 ## 🏗️ Arquitectura del Sistema
 
+### Patrón de Arquitectura: MVC + API REST
 ```
 ├── Frontend (Static HTML/CSS/JS)
 │   ├── Páginas Web (/public/*.html)

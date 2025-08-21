@@ -195,7 +195,7 @@
             background:#dc3f55;
             color: white;
             font-weight: 700;
-            font-family:"Teachers". sans-serif;
+            font-family:"Teachers", sans-serif;
             font-size:16px;
             padding:12px 14px;
             border-radius:10px;
@@ -216,7 +216,7 @@
             background: #48d47d;
             color: white;
             font-weight: 700;
-            font-family:"Teachers". sans-serif;
+            font-family:"Teachers", sans-serif;
             font-size:16px;
             border-radius:12px;
             box-shadow: 0 8px 25px rgba(83, 153, 69, 0.4);
@@ -954,12 +954,20 @@
 
         function closeConfirmationModal() {
             const modalContent = document.getElementById('modalContent');
+            const confirmBtn = document.getElementById('confirmSellBtn');
+            
             modalContent.classList.add('closing');
 
             setTimeout(() => {
                 document.getElementById('confirmationModal').style.display = 'none';
                 modalContent.classList.remove('closing');
                 pendingSaleData = null;
+                
+                // Reset confirm button state
+                if (confirmBtn) {
+                    confirmBtn.disabled = false;
+                    confirmBtn.innerHTML = '<i class="fa-solid fa-circle-check"></i> Confirm Sale';
+                }
             }, 300);
         }
 
@@ -969,9 +977,9 @@
             const confirmBtn = document.getElementById('confirmSellBtn');
             const originalText = confirmBtn.innerHTML;
 
-            // Deshabilitar botón y mostrar loading
+            // Disable button and show loading
             confirmBtn.disabled = true;
-            confirmBtn.innerHTML = ' Processing...';
+            confirmBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Processing...';
 
             try {
                 const response = await fetch(`/api/investments/${pendingSaleData.investmentId}/sell`, {
@@ -990,10 +998,10 @@
                     const profitLossPercent = parseFloat(result.data.saleDetails.profitLossPercent || result.data.profitLossPercent || 0);
                     const profitLossText = profitLoss >= 0 ? 'Profit' : 'Loss';
 
-                    // Cerrar modal de confirmación
+                    // Close confirmation modal first
                     closeConfirmationModal();
 
-                    // Mostrar popup de éxito con detalles
+                    // Show success popup with details
                     const saleDetails = {
                         'Stock Sold': `${pendingSaleData.symbol} - ${pendingSaleData.companyName}`,
                         'Quantity Sold': `${pendingSaleData.quantity} shares`,
@@ -1005,7 +1013,7 @@
 
                     showMessagePopup(
                         'success',
-                        ' Sale Successful!',
+                        'Sale Successful!',
                         result.message,
                         saleDetails
                     );
@@ -1021,9 +1029,11 @@
                 } else {
                     showMessagePopup(
                         'error',
-                        ' Sale Error',
+                        'Sale Error',
                         result.message
                     );
+                    
+                    // Reset button on error
                     confirmBtn.disabled = false;
                     confirmBtn.innerHTML = originalText;
                 }
@@ -1031,9 +1041,11 @@
                 console.error('Error selling stock:', error);
                 showMessagePopup(
                     'error',
-                    ' Connection Error',
+                    'Connection Error',
                     'Could not complete the sale. Check your internet connection and try again.'
                 );
+                
+                // Reset button on error
                 confirmBtn.disabled = false;
                 confirmBtn.innerHTML = originalText;
             }
@@ -1057,14 +1069,14 @@
             // Set content based on type
             if (type === 'success') {
                 modalHeader.classList.add('success');
-                modalIcon.textContent = 'Success';
+                modalIcon.innerHTML = '<i class="fa-solid fa-circle-check"></i>';
                 modalOkBtn.className = 'modal-btn modal-btn-success';
-                modalOkBtn.innerHTML = ' Perfect!';
+                modalOkBtn.innerHTML = '<i class="fa-solid fa-thumbs-up"></i> Perfect!';
             } else if (type === 'error') {
                 modalHeader.classList.add('error');
-                modalIcon.textContent = '<i class="fa-solid fa-xmark"></i>';
+                modalIcon.innerHTML = '<i class="fa-solid fa-xmark"></i>';
                 modalOkBtn.className = 'modal-btn modal-btn-primary';
-                modalOkBtn.innerHTML = ' Try Again';
+                modalOkBtn.innerHTML = '<i class="fa-solid fa-redo"></i> Try Again';
             }
 
             modalTitle.textContent = title;
@@ -1156,6 +1168,24 @@
             // DOM already loaded
             setTimeout(loadInvestments, 100);
         }
+
+        // Also add event listener to reset button when modal backdrop is clicked
+        document.addEventListener('click', function (e) {
+            const modal = document.getElementById('confirmationModal');
+            if (e.target === modal && modal.style.display === 'block') {
+                closeConfirmationModal();
+            }
+        });
+
+        // Reset button when pressing Escape key
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape') {
+                const modal = document.getElementById('confirmationModal');
+                if (modal.style.display === 'block') {
+                    closeConfirmationModal();
+                }
+            }
+        });
     </script>
 </body>
 
