@@ -44,6 +44,96 @@ app.use('/api/portfolio', portfolioRoutes);
 app.use('/api/investments', investmentRoutes);
 app.use('/api/market', marketRoutes);
 
+// News API endpoint
+app.get('/api/news', async (req, res) => {
+    try {
+        console.log('Fetching financial news...');
+        const response = await fetch('https://finnhub.io/api/v1/news?category=general&token=d2f2qkpr01qj3egqt150d2f2qkpr01qj3egqt15g');
+        const data = await response.json();
+        
+        // Limit to 10 most recent news and format data
+        const limitedData = data.slice(0, 10).map(news => ({
+            id: news.id,
+            headline: news.headline,
+            summary: news.summary || 'Sin descripción disponible.',
+            image: news.image,
+            url: news.url,
+            source: news.source,
+            datetime: news.datetime,
+            category: news.category
+        }));
+        
+        res.json({
+            success: true,
+            data: limitedData,
+            message: 'Noticias financieras obtenidas exitosamente'
+        });
+        
+    } catch (error) {
+        console.error('Error fetching news:', error);
+        
+        // Fallback with simulated news if API fails
+        const simulatedNews = [
+            {
+                id: 1,
+                headline: "Mercados Globales Muestran Tendencia Alcista en el Tercer Trimestre",
+                summary: "Los principales índices bursátiles continúan su racha positiva impulsados por datos económicos favorables y optimismo empresarial.",
+                image: "https://via.placeholder.com/300x200?text=Financial+News",
+                url: "#",
+                source: "Financial Times",
+                datetime: Date.now() / 1000,
+                category: "market"
+            },
+            {
+                id: 2,
+                headline: "Tecnológicas Lideran las Ganancias Semanales en Wall Street",
+                summary: "Apple, Microsoft y Google registran aumentos significativos tras reportes de earnings superiores a las expectativas.",
+                image: "https://via.placeholder.com/300x200?text=Tech+Stocks",
+                url: "#",
+                source: "Bloomberg",
+                datetime: Date.now() / 1000 - 3600,
+                category: "technology"
+            },
+            {
+                id: 3,
+                headline: "Inversores se Preparan para la Temporada de Reportes Trimestrales",
+                summary: "Analistas predicen resultados mixtos para el S&P 500 mientras las empresas publican sus estados financieros del último trimestre.",
+                image: "https://via.placeholder.com/300x200?text=Earnings+Season",
+                url: "#",
+                source: "Reuters",
+                datetime: Date.now() / 1000 - 7200,
+                category: "earnings"
+            },
+            {
+                id: 4,
+                headline: "Criptomonedas Registran Volatilidad Tras Decisiones Regulatorias",
+                summary: "Bitcoin y Ethereum experimentan fluctuaciones significativas después de nuevas regulaciones anunciadas por autoridades financieras.",
+                image: "https://via.placeholder.com/300x200?text=Crypto+News",
+                url: "#",
+                source: "CoinDesk",
+                datetime: Date.now() / 1000 - 10800,
+                category: "crypto"
+            },
+            {
+                id: 5,
+                headline: "Sector Energético en Foco por Nuevas Políticas Ambientales",
+                summary: "Empresas de energía renovable ven aumentos en sus valuaciones tras anuncios de incentivos gubernamentales para tecnologías limpias.",
+                image: "https://via.placeholder.com/300x200?text=Energy+Sector",
+                url: "#",
+                source: "Energy Weekly",
+                datetime: Date.now() / 1000 - 14400,
+                category: "energy"
+            }
+        ];
+        
+        res.json({
+            success: true,
+            data: simulatedNews,
+            message: 'Mostrando noticias simuladas (API externa no disponible)'
+        });
+    }
+});
+
 // Web Routes - páginas HTML servidas desde /public/
 app.get('/', (req, res) => {
     res.redirect('/register.html');

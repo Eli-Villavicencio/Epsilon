@@ -6,7 +6,11 @@
     <title>Comprar Acciones - Portfolio Management</title>
     <script src="./js/header-loader.js"></script>
     <link rel="stylesheet" href="./css/global.css">
+    <link rel = "stylesheet" href ="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+    @import url('https://fonts.googleapis.com/css2?family=Teachers:ital,wght@0,400..800;1,400..800&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&family=Teachers:ital,wght@0,400..800;1,400..800&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Didact+Gothic&family=Lexend:wght@100..900&family=Teachers:ital,wght@0,400..800;1,400..800&display=swap');
         body { 
             font-family: Arial, sans-serif; 
             margin: 0; 
@@ -27,7 +31,7 @@
             border-radius: 12px;
             margin-bottom: 20px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            border-left: 5px solid #28a745;
+            border-left: 5px solid #53af68;
         }
         
         .page-title {
@@ -35,20 +39,68 @@
             font-size: 28px;
             font-weight: 700;
             color: #293b36;
+            font-family:"Lexend", sans-serif;
         }
         
         .page-subtitle {
             margin: 0;
             color: #666;
             font-size: 16px;
+            font-size:"Didact Gothic", sans-serif;
         }
         
-        .container { max-width: 800px; margin: 0 auto; }
-        .header { background: white; padding: 20px; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        .card { background: white; padding: 20px; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        .form-group { margin-bottom: 15px; }
-        label { display: block; margin-bottom: 5px; color: #555; font-weight: bold; }
-        input, select { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; }
+        .container { 
+            max-width: 800px; 
+            margin: 0 auto; 
+        }
+        .header { 
+            background: rgb(231, 234, 251); 
+            padding: 20px; 
+            border-radius: 8px; 
+            margin-bottom: 20px; 
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1); 
+        }
+        .header h1{
+            font-family: "Lexend", sans-serif;
+
+        }
+        .card { 
+            background: white; 
+            padding: 20px; 
+            border-radius: 8px; 
+            margin-bottom: 20px; 
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1); 
+        }
+        .card h3{
+            font-family:"Lexend", sans-serif;
+            color: #5b5c5b;
+
+        
+        }
+        .cash-info{
+            font-family:"Didact Gothic", sans-serif;
+        }
+        .form-group { 
+            margin-bottom: 15px; 
+        }
+        .form-group label{
+            font-family:"Didact Gothic", sans-serif;
+            font-size:18px;
+            color:#7b7b7b;
+        }
+        label { 
+            display: block; 
+            margin-bottom: 5px; 
+            color: #555; 
+            font-weight: bold; 
+        }
+        input, select { 
+            width: 100%; 
+            padding: 10px; 
+            border: 1px solid #ddd; 
+            border-radius: 4px; 
+            box-sizing: border-box; 
+        }
         button { 
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
             color: white; 
@@ -63,34 +115,65 @@
             transform: translateY(-2px); 
             box-shadow: 0 8px 25px rgba(0,0,0,0.15); 
         }
-        .stock-info { background: #f8f9fa; padding: 15px; border-radius: 4px; margin: 15px 0; }
-        .price { font-size: 24px; font-weight: bold; color: #28a745; }
-        .change-positive { color: #28a745; }
-        .change-negative { color: #dc3545; }
-        .back-btn { background: #6c757d; }
-        .message { padding: 10px; border-radius: 4px; margin: 10px 0; }
-        .success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
-        .error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .stock-info { 
+            background: #f8f9fa; 
+            padding: 15px; 
+            border-radius: 4px; 
+            margin: 15px 0; 
+        }
+        .price { 
+            font-size: 24px; 
+            font-weight: bold; 
+            color: #28a745; 
+        }
+        .change-positive { 
+            color: #58b26d; 
+        }
+        .change-negative { 
+            color: rgb(181, 80, 90); 
+        }
+        .back-btn { 
+            background: #9586B1; 
+            border-radius:16px;
+            font-size:18px;
+            font-family:"Teachers", sans-serif;
+        }
+        .message { 
+            padding: 10px; 
+            border-radius: 4px; 
+            margin: 10px 0; 
+        }
+        .success { 
+            background: #d4edda; 
+            color: #155724; 
+            border: 1px solid #c3e6cb; 
+        }
+        .error { 
+            background: #f8d7da; 
+            color: #721c24; 
+            border: 1px solid #f5c6cb; 
+        }
         
         /* Nuevo estilo para la búsqueda inspirado en stocks.html */
         .search-box {
             position: relative;
             width: 100%;
             margin-bottom: 15px;
+            
         }
         .search-box input {
             padding: 12px 50px 12px 15px;
             width: 100%;
             box-sizing: border-box;
             font-size: 16px;
-            border: 2px solid #ddd;
-            border-radius: 8px;
-            transition: border-color 0.3s;
+            border-radius:24px;
+            background: #e7e5f7;
+            font-family:"Didact Gothic", sans-serif;
         }
         .search-box input:focus {
-            border-color: #007bff;
+            border-color: #ae00ff;
             outline: none;
-            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+            box-shadow: 0 rgb(117, 5, 223) rgba(0, 123, 255, 0.1);
         }
         .search-box button {
             position: absolute;
@@ -130,12 +213,12 @@
         }
         .stock-container {
             padding: 15px;
-            border-bottom: 1px solid #eee;
+            border-bottom: 1px solid #232fd6;
             transition: background-color 0.2s;
             position: relative;
         }
         .stock-container:hover {
-            background-color: #f8f9fa;
+            background-color: rgb(227, 237, 247);
         }
         .stock-container:last-child {
             border-bottom: none;
@@ -154,26 +237,28 @@
             gap: 8px;
         }
         .stock-action-btn {
-            padding: 4px 8px;
-            border: 1px solid #007bff;
+            padding: 8px 12px;
+            border: 1px solid #4e7eb3;
             background: white;
-            color: #007bff;
-            border-radius: 4px;
+            color: #4e7eb3;
+            border-radius: 10px;
             cursor: pointer;
             font-size: 11px;
             transition: all 0.2s;
             text-decoration: none;
+            font-family:"Teachers", sans-serif;
+            font-size: 15px;
         }
         .stock-action-btn:hover {
-            background: #007bff;
+            background: #4e7eb3;
             color: white;
         }
         .stock-action-btn.primary {
-            background: #007bff;
+            background: #4e7eb3;
             color: white;
         }
         .stock-action-btn.primary:hover {
-            background: #0056b3;
+            background: #4e7eb3;
         }
         .stock-container h3 {
             margin: 0 0 8px 0;
@@ -182,25 +267,31 @@
         }
         .stock-container .stock-symbol {
             font-weight: bold;
-            color: #007bff;
-            font-size: 14px;
+            color: #4e7eb3;
+            font-size: 18px;
             margin-bottom: 5px;
+            font-family:"Teachers", sans-serif;
         }
         .stock-container .stock-price {
             font-weight: bold;
-            font-size: 18px;
+            font-size: 20px;
             margin-bottom: 3px;
+            font-family:"Didact Gothic", sans-serif;
         }
         .stock-container .stock-change {
             font-size: 14px;
+            font-family:"Didact Gothic", sans-serif;
         }
         .stock-container .loading-price {
             color: #666;
             font-style: italic;
+            font-family:"Didact Gothic", sans-serif;
+            font-size:14px;
         }
         .stock-container .error-price {
             color: #dc3545;
             font-size: 12px;
+            font-family:"Didact Gothic", sans-serif;
         }
         .search-status {
             text-align: center;
@@ -223,12 +314,14 @@
         }
         .top-stocks-header {
             padding: 15px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
+            background: linear-gradient(135deg, rgb(147, 164, 241) 0%,rgb(177, 121, 236)100%);
+            color: rgb(75, 74, 74);
             text-align: center;
             font-weight: bold;
             border-radius: 8px 8px 0 0;
             margin: 0;
+            font-family:"Lexend", sans-serif;
+            font-size:18px;
         }
         .popular-badge {
             display: inline-block;
@@ -251,55 +344,316 @@
             background: linear-gradient(45deg, #007bff, #0056b3);
             color: white;
         }
+        .logout-btn { 
+            background: linear-gradient(135deg, #dc3545 0%, #c82333 100%); 
+            color: white; 
+            font-weight: 700;
+            padding: 8px 12px;
+            font-size: 12px;
+        }
+        .logout-btn:hover { 
+            background: linear-gradient(135deg, #c82333 0%, #a71e2a 100%);
+            transform: translateY(-2px); 
+            box-shadow: 0 8px 25px rgba(220,53,69,0.4); 
+        }
+
+        /* Message Modal Styles */
+        .message-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-backdrop {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-container {
+            position: relative;
+            background: white;
+            border-radius: 20px;
+            min-width: 400px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+            animation: modalSlideIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            overflow: hidden;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: scale(0.7) translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .modal-container.closing {
+            animation: modalSlideOut 0.3s ease-in-out;
+        }
+
+        @keyframes modalSlideOut {
+            from {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+            to {
+                opacity: 0;
+                transform: scale(0.7) translateY(-50px);
+            }
+        }
+
+        .modal-header {
+            padding: 30px 30px 20px 30px;
+            text-align: center;
+            border-bottom: 1px solid #eee;
+        }
+
+        .modal-header.success {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            border-bottom: none;
+        }
+
+        .modal-header.error {
+            background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+            color: white;
+            border-bottom: none;
+        }
+
+        .modal-header.warning {
+            background: linear-gradient(135deg, #ffc107 0%, #fd7e14 100%);
+            color: #212529;
+            border-bottom: none;
+        }
+
+        .modal-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+            display: block;
+            animation: modalIconBounce 0.6s ease-out 0.2s both;
+        }
+
+        @keyframes modalIconBounce {
+            0% {
+                transform: scale(0);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1.2);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .modal-title {
+            margin: 0;
+            font-size: 24px;
+            font-weight: bold;
+            font-family: "Lexend", sans-serif;
+        }
+
+        .modal-body {
+            padding: 30px;
+        }
+
+        .modal-message {
+            font-size: 16px;
+            line-height: 1.6;
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+            font-family: "Didact Gothic", sans-serif;
+        }
+
+        .modal-details {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 20px;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+
+        .detail-label {
+            color: #666;
+            font-weight: 500;
+            font-family: "Lexend", sans-serif;
+        }
+
+        .detail-value {
+            font-weight: bold;
+            color: #333;
+            font-family: "Didact Gothic", sans-serif;
+        }
+
+        .modal-actions {
+            padding: 0 30px 30px 30px;
+            text-align: center;
+        }
+
+        .modal-btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 16px;
+            font-family: "Lexend", sans-serif;
+            transition: all 0.3s ease;
+            min-width: 150px;
+        }
+
+        .modal-btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .modal-btn-success {
+            background: linear-gradient(135deg, #52a766 0%, #60974a 100%);
+            color: white;
+        }
+
+        .modal-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .modal-container {
+                min-width: auto;
+                width: 95%;
+                margin: 20px;
+            }
+
+            .modal-header, .modal-body, .modal-actions {
+                padding: 20px;
+            }
+
+            .modal-icon {
+                font-size: 36px;
+            }
+
+            .modal-title {
+                font-size: 20px;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="main-content">
         <div class="page-header">
-            <h1 class="page-title">💰 Comprar Acciones</h1>
-            <p class="page-subtitle">Busca y compra acciones para tu portafolio</p>
+            <h1 class="page-title"> <i class="fa-solid fa-sack-dollar"></i> Buy Stocks</h1>
+            <p class="page-subtitle">Search and buy stocks for your portfolio</p>
         </div>
 
         <div class="container">
             <div class="header">
-                <h1>Comprar Acciones</h1>
+                <h1>Buy Stocks</h1>
                 <div style="display: flex; gap: 15px; align-items: center;">
                     <div class="cash-info">
-                        <div style="font-size: 12px; opacity: 0.9;">Dinero Disponible</div>
-                        <div id="cashBalance" style="font-size: 18px; font-weight: bold;">$0.00</div>
+                        <div style="font-size: 18px; opacity: 0.9; font-weight: 700;">Available Cash</div>
+                        <div id="cashBalance" style="font-size: 20px; font-weight: 700;">$0.00</div>
                     </div>
-                    <button class="back-btn" onclick="window.location.href='dashboard.html'">Volver al Dashboard</button>
+                    <button class="btn btn-success" onclick="showAddCashModal()">Add Money</button>
+                    <button class="back-btn" onclick="window.location.href='dashboard.html'">Back to Dashboard</button>
+                    <button class="logout-btn" onclick="logout()" title="Sign Out"><i class="fa-solid fa-right-from-bracket"></i>  Exit</button>
                 </div>
             </div>
 
             <div class="card">
-                <h3>Buscar Acción</h3>
+                <h3>Search Stock</h3>
                 <div class="form-group">
-                    <label for="searchInput">Símbolo o Nombre de la Empresa:</label>
+                    <label for="searchInput">Symbol or Company Name:</label>
                     <div class="search-box">
-                        <input type="text" id="searchInput" placeholder="Ej: AAPL, Apple, GOOGL, Microsoft...">
-                        <button id="searchBtn">🔍</button>
+                        <input type="text" id="searchInput" placeholder="e.g: AAPL, Apple, GOOGL, Microsoft...">
+                        <button id="searchBtn"><i class="fa-solid fa-magnifying-glass"></i></button>
                     </div>
                 </div>
                 <div id="searchResults" class="search-results"></div>
             </div>
 
             <div class="card" id="stockCard" style="display: none;">
-                <h3>Información de la Acción</h3>
+                <h3>Stock Information</h3>
                 <div id="stockInfo" class="stock-info"></div>
                 
                 <div class="form-group">
-                    <label for="quantity">Cantidad de Acciones:</label>
+                    <label for="quantity">Number of Shares:</label>
                     <input type="number" id="quantity" min="1" value="1">
                 </div>
                 
                 <div id="totalCost" style="font-size: 18px; font-weight: bold; margin: 15px 0;"></div>
                 
-                <button onclick="buyStock()">Comprar Acciones</button>
-                <button onclick="clearSelection()" style="background: #6c757d;">Limpiar</button>
+                <button onclick="buyStock()">Buy Stocks</button>
+                <button onclick="clearSelection()" style="background: #6c757d;">Clear</button>
             </div>
+        </div>
 
-            <div id="message"></div>
+    <!-- Add Cash Modal -->
+    <div id="addCashModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000;">
+        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 30px; border-radius: 12px; min-width: 300px; box-shadow: 0 20px 40px rgba(0,0,0,0.3);">
+            <h3 style="margin-top: 0; color: #293b36; font-family: 'Lexend', sans-serif;">💰 Add Money to Account</h3>
+            <div class="form-group">
+                <label for="cashAmount" style="font-family: 'Lexend', sans-serif;">Amount:</label>
+                <input type="number" id="cashAmount" min="1" step="0.01" placeholder="0.00" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; font-size: 16px;">
+            </div>
+            <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px;">
+                <button class="btn-secondary" onclick="closeAddCashModal()" style="background: #6c757d; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: 700;">Cancel</button>
+                <button class="btn-success" onclick="addCash()" style="background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: 700;">Add</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success/Error Popup Modal -->
+    <div id="messageModal" class="message-modal" style="display: none;">
+        <div class="modal-backdrop"></div>
+        <div class="modal-container" id="modalContainer">
+            <div class="modal-header" id="modalHeader">
+                <div class="modal-icon" id="modalIcon">✅</div>
+                <h3 class="modal-title" id="modalTitle">Successful Operation</h3>
+            </div>
+            <div class="modal-body">
+                <div class="modal-message" id="modalMessage">
+                    <!-- Message will be inserted here dynamically -->
+                </div>
+                <div class="modal-details" id="modalDetails" style="display: none;">
+                    <!-- Additional details will be shown here -->
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button class="modal-btn modal-btn-primary" id="modalOkBtn" onclick="closeMessageModal()">
+                    ✅ Understood
+                </button>
+            </div>
         </div>
     </div>
 
@@ -339,7 +693,7 @@
             
             searchResults.innerHTML = `
                 <div class="top-stocks-header">
-                    📈 Top 10 Acciones Populares
+                     Top 10 Acciones Populares
                 </div>
                 <div class="search-status">
                     <div class="loading-spinner"></div> Cargando acciones populares...
@@ -367,10 +721,10 @@
                             </div>
                             <div class="stock-actions">
                                 <a href="stock-details.html?symbol=${stock.symbol}" class="stock-action-btn" target="_blank">
-                                    📊 Ver Detalles
+                                     Ver Detalles
                                 </a>
                                 <button class="stock-action-btn primary" onclick="selectStockFromSearch('${stock.symbol}')">
-                                    💰 Seleccionar
+                                    Seleccionar
                                 </button>
                             </div>
                         </div>
@@ -391,7 +745,7 @@
                 
                 searchResults.innerHTML = `
                     <div class="top-stocks-header">
-                        📈 Top 10 Acciones Populares
+                        Top 10 popular stocks
                     </div>
                     ${stocksHTML.join('')}
                 `;
@@ -400,7 +754,7 @@
                 console.error('Error cargando top stocks:', err);
                 searchResults.innerHTML = `
                     <div class="top-stocks-header">
-                        📈 Top 10 Acciones Populares
+                        Top 10 Acciones Populares
                     </div>
                     <div class="search-status" style="color: #dc3545;">
                         Error cargando acciones populares
@@ -426,16 +780,15 @@
                             <div class="stock-basic-info">
                                 <div class="stock-symbol">
                                     #${rank} ${data.symbol}
-                                    <span class="popular-badge ${stockInfo.category}">${stockInfo.label}</span>
                                 </div>
                                 <h3>${data.shortName || `${symbol} Company`}</h3>
                             </div>
                             <div class="stock-actions">
                                 <a href="stock-details.html?symbol=${symbol}" class="stock-action-btn" target="_blank">
-                                    📊 Ver Detalles
+                                     Details
                                 </a>
                                 <button class="stock-action-btn primary" onclick="selectStockFromSearch('${symbol}')">
-                                    💰 Seleccionar
+                                     Buy
                                 </button>
                             </div>
                         </div>
@@ -464,10 +817,10 @@
                         </div>
                         <div class="stock-actions">
                             <a href="stock-details.html?symbol=${symbol}" class="stock-action-btn" target="_blank">
-                                📊 Ver Detalles
+                                 Ver Detalles
                             </a>
                             <button class="stock-action-btn primary" onclick="selectStockFromSearch('${symbol}')">
-                                💰 Seleccionar
+                                 Seleccionar
                             </button>
                         </div>
                     </div>
@@ -770,12 +1123,12 @@
             const quantity = parseInt(document.getElementById('quantity').value);
             
             if (!selectedStock || !quantity || quantity <= 0) {
-                showMessage('Selecciona una acción y una cantidad válida', 'error');
+                showMessagePopup('error', 'Incomplete Data', 'Select a stock and enter a valid quantity');
                 return;
             }
 
             if (isLoading) {
-                showMessage('Procesando compra anterior...', 'error');
+                showMessagePopup('warning', 'Operation in Progress', 'There is already a purchase in progress. Please wait...');
                 return;
             }
 
@@ -785,7 +1138,7 @@
             const buyButton = event.target;
             const originalText = buyButton.textContent;
             buyButton.disabled = true;
-            buyButton.textContent = 'Comprando...';
+            buyButton.textContent = 'Buying...';
             
             try {
                 const response = await fetch('/api/investments/', {
@@ -803,7 +1156,21 @@
                 const result = await response.json();
                 
                 if (result.success) {
-                    showMessage(result.message, 'success');
+                    // Show success popup with transaction details
+                    const transactionDetails = {
+                        'Stock Purchased': `${selectedStock.symbol} - ${selectedStock.shortName}`,
+                        'Quantity': `${quantity} shares`,
+                        'Price per Share': `$${selectedStock.price.toFixed(2)}`,
+                        'Total Invested': `$${totalCost.toLocaleString()}`,
+                        'New Balance': `$${parseFloat(result.data.remainingCash).toLocaleString()}`
+                    };
+
+                    showMessagePopup(
+                        'success', 
+                        '🎉 Purchase Successful!', 
+                        result.message,
+                        transactionDetails
+                    );
                     
                     // Update header balance
                     if (window.headerLoader) {
@@ -817,15 +1184,148 @@
                         loadCashBalance();
                     }, 1000);
                 } else {
-                    showMessage(result.message, 'error');
+                    // Show error popup with helpful information
+                    let errorDetails = null;
+                    
+                    if (result.message.includes('money') || result.message.includes('funds') || result.message.includes('balance')) {
+                        errorDetails = {
+                            'Total Cost': `$${totalCost.toLocaleString()}`,
+                            'Current Balance': `$${parseFloat(result.currentBalance || 0).toLocaleString()}`,
+                            'Money Needed': `$${(totalCost - parseFloat(result.currentBalance || 0)).toLocaleString()}`,
+                            'Suggestion': 'Use the "Add Money" button to deposit funds'
+                        };
+                    }
+
+                    showMessagePopup(
+                        'error',
+                        '❌ Purchase Error',
+                        result.message,
+                        errorDetails
+                    );
                 }
             } catch (error) {
                 console.error('Error buying stock:', error);
-                showMessage('Error comprando acciones. Intenta de nuevo.', 'error');
+                showMessagePopup(
+                    'error',
+                    '🔌 Connection Error',
+                    'Could not complete the purchase. Check your internet connection and try again.'
+                );
             } finally {
                 isLoading = false;
                 buyButton.disabled = false;
                 buyButton.textContent = originalText;
+            }
+        }
+
+        // New function to show popup messages
+        function showMessagePopup(type, title, message, details = null) {
+            const modal = document.getElementById('messageModal');
+            const modalContainer = document.getElementById('modalContainer');
+            const modalHeader = document.getElementById('modalHeader');
+            const modalIcon = document.getElementById('modalIcon');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalMessage = document.getElementById('modalMessage');
+            const modalDetails = document.getElementById('modalDetails');
+            const modalOkBtn = document.getElementById('modalOkBtn');
+
+            // Reset classes
+            modalHeader.className = 'modal-header';
+            modalContainer.className = 'modal-container';
+
+            // Set content based on type
+            if (type === 'success') {
+                modalHeader.classList.add('success');
+                modalIcon.textContent = '🎉';
+                modalOkBtn.className = 'modal-btn modal-btn-success';
+                modalOkBtn.innerHTML = '✅ Perfect!';
+            } else if (type === 'error') {
+                modalHeader.classList.add('error');
+                modalIcon.textContent = '❌';
+                modalOkBtn.className = 'modal-btn modal-btn-primary';
+                modalOkBtn.innerHTML = '🔄 Try Again';
+            } else if (type === 'warning') {
+                modalHeader.classList.add('warning');
+                modalIcon.textContent = '⚠️';
+                modalOkBtn.className = 'modal-btn modal-btn-primary';
+                modalOkBtn.innerHTML = '✅ Understood';
+            }
+
+            modalTitle.textContent = title;
+            modalMessage.innerHTML = message;
+
+            // Show or hide details
+            if (details) {
+                const detailsHTML = Object.entries(details).map(([label, value]) => `
+                    <div class="detail-row">
+                        <span class="detail-label">${label}:</span>
+                        <span class="detail-value">${value}</span>
+                    </div>
+                `).join('');
+                
+                modalDetails.innerHTML = detailsHTML;
+                modalDetails.style.display = 'block';
+            } else {
+                modalDetails.style.display = 'none';
+            }
+
+            // Show modal
+            modal.style.display = 'flex';
+            
+            // Add entrance animation
+            setTimeout(() => {
+                modalContainer.style.animation = 'modalSlideIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)';
+            }, 10);
+        }
+
+        // Function to close popup modal
+        function closeMessageModal() {
+            const modal = document.getElementById('messageModal');
+            const modalContainer = document.getElementById('modalContainer');
+            
+            modalContainer.classList.add('closing');
+            
+            setTimeout(() => {
+                modal.style.display = 'none';
+                modalContainer.classList.remove('closing');
+            }, 300);
+        }
+
+        // Close modal when clicking on backdrop
+        document.addEventListener('click', function(e) {
+            const modal = document.getElementById('messageModal');
+            const modalBackdrop = e.target.closest('.modal-backdrop');
+            
+            if (modalBackdrop && modal.style.display === 'flex') {
+                closeMessageModal();
+            }
+        });
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                const modal = document.getElementById('messageModal');
+                if (modal.style.display === 'flex') {
+                    closeMessageModal();
+                }
+            }
+        });
+
+        // Update the original showMessage function to use popup for important messages
+        function showMessage(text, type) {
+            // For success and error messages, use popup
+            if (type === 'success' || type === 'error') {
+                const title = type === 'success' ? '✅ Successful Operation' : '❌ Error';
+                showMessagePopup(type, title, text);
+            } else {
+                // For other messages, use the original method
+                const messageDiv = document.getElementById('message');
+                messageDiv.innerHTML = `<div class="message ${type}">${text}</div>`;
+                
+                setTimeout(() => {
+                    if (messageDiv.innerHTML.includes(text)) {
+                        messageDiv.innerHTML = '';
+                    }
+                }, 8000);
             }
         }
 
@@ -838,15 +1338,13 @@
             document.getElementById('totalCost').innerHTML = '';
         }
 
-        function showMessage(text, type) {
-            const messageDiv = document.getElementById('message');
-            messageDiv.innerHTML = `<div class="message ${type}">${text}</div>`;
-            
-            setTimeout(() => {
-                if (messageDiv.innerHTML.includes(text)) {
-                    messageDiv.innerHTML = '';
-                }
-            }, 8000);
+        function logout() {
+            if (confirm('¿Estás seguro de que quieres cerrar sesión?')) {
+                localStorage.removeItem('userId');
+                localStorage.removeItem('user');
+                localStorage.removeItem('authToken');
+                window.location.href = 'login.html';
+            }
         }
 
         // Check for preselected stock from URL parameters
@@ -859,6 +1357,96 @@
                 selectStockFromSearch(preselectedSymbol);
             }
         }
+
+        // Función para mostrar modal de agregar dinero
+        function showAddCashModal() {
+            document.getElementById('addCashModal').style.display = 'block';
+        }
+
+        // Función para cerrar modal de agregar dinero
+        function closeAddCashModal() {
+            const modal = document.getElementById('addCashModal');
+            const cashAmountInput = document.getElementById('cashAmount');
+            
+            if (modal) {
+                modal.style.display = 'none';
+            }
+            
+            if (cashAmountInput) {
+                cashAmountInput.value = '';
+            }
+        }
+
+        // Función para agregar dinero
+        async function addCash() {
+            const cashAmountInput = document.getElementById('cashAmount');
+            if (!cashAmountInput) {
+                showMessage('Error: elemento de cantidad no encontrado', 'error');
+                return;
+            }
+            
+            const amount = parseFloat(cashAmountInput.value);
+            
+            if (!amount || amount <= 0) {
+                showMessage('Ingresa una cantidad válida', 'error');
+                return;
+            }
+            
+            try {
+                const response = await fetch('/api/investments/cash/add', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'x-user-id': userId
+                    },
+                    body: JSON.stringify({ amount })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    showMessage(`✅ ${result.message}`, 'success');
+                    
+                    // Actualizar balance en la página
+                    document.getElementById('cashBalance').textContent = `$${parseFloat(result.data.newBalance).toLocaleString()}`;
+                    
+                    closeAddCashModal();
+                    
+                    // Actualizar balance en el header
+                    if (window.headerLoader && window.headerLoader.updateCashBalance) {
+                        window.headerLoader.updateCashBalance(result.data.newBalance);
+                    }
+
+                    // Refrescar balance después de un momento
+                    setTimeout(() => {
+                        loadCashBalance();
+                    }, 500);
+                } else {
+                    showMessage(result.message, 'error');
+                }
+            } catch (error) {
+                console.error('Error adding cash:', error);
+                showMessage('Error agregando dinero. Intenta de nuevo.', 'error');
+            }
+        }
+
+        // Cerrar modal al hacer clic fuera de él
+        document.addEventListener('click', function(e) {
+            const modal = document.getElementById('addCashModal');
+            if (e.target === modal) {
+                closeAddCashModal();
+            }
+        });
+
+        // Cerrar modal con tecla Escape
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                const modal = document.getElementById('addCashModal');
+                if (modal.style.display === 'block') {
+                    closeAddCashModal();
+                }
+            }
+        });
 
         // Event listeners
         document.getElementById('quantity').addEventListener('input', updateTotalCost);
